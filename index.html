@@ -1,0 +1,233 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Workout App</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0f172a">
+
+<style>
+body {
+    font-family: Arial;
+    background: #0f172a;
+    color: white;
+    padding: 10px;
+}
+
+h1, h2 {
+    text-align: center;
+}
+
+.section {
+    background: #1e293b;
+    padding: 12px;
+    margin: 12px 0;
+    border-radius: 10px;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    margin-top: 8px;
+    border: none;
+    border-radius: 6px;
+    background: #22c55e;
+    color: white;
+}
+
+.timer, .exercise {
+    text-align: center;
+    font-size: 22px;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 5px;
+}
+
+.day {
+    padding: 8px;
+    background: #334155;
+    text-align: center;
+    border-radius: 6px;
+    font-size: 12px;
+}
+
+.done {
+    background: #22c55e;
+}
+
+input {
+    width: 100%;
+    padding: 8px;
+    margin-top: 6px;
+}
+</style>
+</head>
+
+<body>
+
+<h1>🔥 Workout App</h1>
+
+<div class="section">
+<h2>▶️ Workout Player</h2>
+<div class="exercise" id="exercise">Ready</div>
+<div class="timer" id="timer">00:00</div>
+<button onclick="startWorkout()">Start</button>
+<button onclick="toggleMode()">Toggle Period Mode</button>
+<p id="mode">Mode: Normal</p>
+</div>
+
+<div class="section">
+<h2>📅 4-Week Plan</h2>
+<div class="grid" id="calendar"></div>
+</div>
+
+<div class="section">
+<h2>📊 Progress</h2>
+<input type="number" id="waist" placeholder="Waist (cm)">
+<button onclick="saveProgress()">Save</button>
+<canvas id="chart"></canvas>
+</div>
+
+<div class="section">
+<h2>🔥 Streak</h2>
+<p id="streak"></p>
+</div>
+
+<script>
+let periodMode = false;
+
+const normalExercises = [
+    "Frog Pumps","Rest",
+    "Reverse Lunges","Rest",
+    "Bird Dog","Rest",
+    "Incline Push-Ups","Rest",
+    "Side Plank","Rest",
+    "Superman Hold"
+];
+
+const periodExercises = [
+    "Stretch","Rest",
+    "Glute Bridge","Rest",
+    "Bird Dog","Rest"
+];
+
+let exercises = normalExercises;
+let index = 0, time = 40, interval;
+
+function speak(text){
+    speechSynthesis.speak(new SpeechSynthesisUtterance(text));
+}
+
+function toggleMode(){
+    periodMode = !periodMode;
+    exercises = periodMode ? periodExercises : normalExercises;
+    document.getElementById("mode").innerText =
+        "Mode: " + (periodMode ? "Period (Light)" : "Normal");
+}
+
+function startWorkout(){
+    index = 0;
+    run();
+}
+
+function run(){
+    if(index >= exercises.length){
+        speak("Done");
+        markDone();
+        return;
+    }
+
+    let current = exercises[index];
+    time = current === "Rest" ? 20 : 40;
+
+    document.getElementById("exercise").innerText = current;
+    speak(current);
+
+    clearInterval(interval);
+    interval = setInterval(()=>{
+        document.getElementById("timer").innerText =
+            "00:" + String(time).padStart(2,'0');
+
+        if(time-- <= 0){
+            clearInterval(interval);
+            index++;
+            run();
+        }
+    },1000);
+}
+
+function markDone(){
+    let today = new Date().toDateString();
+    localStorage.setItem(today,"done");
+    updateCalendar();
+    updateStreak();
+}
+
+function createCalendar(){
+    let cal = document.getElementById("calendar");
+    for(let i=1;i<=28;i++){
+        let d = document.createElement("div");
+        d.className="day";
+        d.innerText=i;
+        d.onclick=startWorkout;
+        cal.appendChild(d);
+    }
+}
+
+function updateCalendar(){
+    let days=document.querySelectorAll(".day");
+    days.forEach((d,i)=>{
+        let date = new Date();
+        date.setDate(i+1);
+        if(localStorage.getItem(date.toDateString())){
+            d.classList.add("done");
+        }
+    });
+}
+
+function updateStreak(){
+    let streak=0;
+    for(let i=0;i<30;i++){
+        let d=new Date();
+        d.setDate(d.getDate()-i);
+        if(localStorage.getItem(d.toDateString())) streak++;
+        else break;
+    }
+    document.getElementById("streak").innerText =
+        "🔥 " + streak + " day streak";
+}
+
+function saveProgress(){
+    let waist = document.getElementById("waist").value;
+    let data = JSON.parse(localStorage.getItem("waistLog")||"[]");
+    data.push(waist);
+    localStorage.setItem("waistLog", JSON.stringify(data));
+    drawChart(data);
+}
+
+function drawChart(data){
+    let c=document.getElementById("chart");
+    let ctx=c.getContext("2d");
+    c.width=300; c.height=150;
+    ctx.clearRect(0,0,300,150);
+
+    ctx.beginPath();
+    data.forEach((v,i)=>{
+        ctx.lineTo(i*30,150 - v);
+    });
+    ctx.stroke();
+}
+
+createCalendar();
+updateCalendar();
+updateStreak();
+drawChart(JSON.parse(localStorage.getItem("waistLog")||"[]"));
+</script>
+
+</body>
+</html>
