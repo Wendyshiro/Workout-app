@@ -369,6 +369,128 @@ canvas#chart {
 
 /* Rest exercise accent */
 #exercise.is-rest { color: var(--muted); }
+
+/* ── Phase badge ── */
+.phase-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 4px 12px;
+  border-radius: 99px;
+  margin-bottom: 10px;
+  transition: all .3s;
+}
+.phase-warmup   { background: rgba(255,180,0,.1);   border: 1px solid rgba(255,180,0,.3);  color: #ffb400; }
+.phase-workout  { background: rgba(0,229,160,.1);   border: 1px solid rgba(0,229,160,.3);  color: var(--accent); }
+.phase-cooldown { background: rgba(120,160,255,.1); border: 1px solid rgba(120,160,255,.3); color: #78a0ff; }
+
+/* ── Phase progress dots ── */
+.phase-track {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+.phase-dot {
+  width: 28px; height: 4px;
+  border-radius: 2px;
+  background: var(--border);
+  transition: background .4s;
+}
+.phase-dot.active  { background: var(--accent); }
+.phase-dot.done    { background: rgba(0,229,160,.35); }
+.phase-dot.warmup-dot.active  { background: #ffb400; }
+.phase-dot.warmup-dot.done    { background: rgba(255,180,0,.35); }
+.phase-dot.cooldown-dot.active { background: #78a0ff; }
+.phase-dot.cooldown-dot.done   { background: rgba(120,160,255,.35); }
+
+/* ── Exercise hint ── */
+.exercise-hint {
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  color: var(--muted);
+  min-height: 1.1em;
+  margin-top: 8px;
+  transition: opacity .3s;
+  font-weight: 300;
+}
+
+/* ring colour transitions */
+.ring-fg.warmup   { stroke: #ffb400 !important; }
+.ring-fg.cooldown { stroke: #78a0ff !important; }
+
+/* ── Stretch reference cards ── */
+.stretch-section {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  overflow: hidden;
+}
+.stretch-tabs {
+  display: flex;
+  border-bottom: 1px solid var(--border);
+}
+.stretch-tab {
+  flex: 1;
+  padding: 12px 8px;
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  text-align: center;
+  color: var(--muted);
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  transition: all .18s;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+}
+.stretch-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+.stretch-tab:hover:not(.active) { color: var(--text); }
+
+.stretch-list { padding: 16px; }
+.stretch-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+}
+.stretch-item:last-child { border-bottom: none; }
+.stretch-icon {
+  width: 36px; height: 36px;
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+.stretch-icon.wu { background: rgba(255,180,0,.1); }
+.stretch-icon.cd { background: rgba(120,160,255,.1); }
+.stretch-info { flex: 1; }
+.stretch-name {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  letter-spacing: 1px;
+  color: var(--text);
+  margin-bottom: 2px;
+}
+.stretch-desc {
+  font-size: 0.75rem;
+  color: var(--muted);
+  line-height: 1.4;
+}
+.stretch-dur {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--accent);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
 </style>
 </head>
 
@@ -384,8 +506,17 @@ canvas#chart {
   <!-- Player -->
   <div class="player-card">
     <div class="player-inner">
+      <!-- Phase dots -->
+      <div class="phase-track">
+        <div class="phase-dot warmup-dot"   id="dot0"></div>
+        <div class="phase-dot"              id="dot1"></div>
+        <div class="phase-dot cooldown-dot" id="dot2"></div>
+      </div>
+
+      <div id="phaseBadge" class="phase-badge phase-workout">● Workout</div>
       <div class="exercise-label">Current Exercise</div>
       <div id="exercise">Ready</div>
+      <div class="exercise-hint" id="exerciseHint"></div>
 
       <div class="ring-wrap">
         <div class="ring-container">
@@ -429,6 +560,16 @@ canvas#chart {
     </div>
   </div>
 
+  <!-- Stretch Reference -->
+  <div class="section-title">Stretches <span>REFERENCE</span></div>
+  <div class="stretch-section">
+    <div class="stretch-tabs">
+      <button class="stretch-tab active" onclick="showStretchTab('warmup', this)">Warm-Up</button>
+      <button class="stretch-tab" onclick="showStretchTab('cooldown', this)">Cool-Down</button>
+    </div>
+    <div class="stretch-list" id="stretchList"></div>
+  </div>
+
   <!-- Progress -->
   <div class="section-title">Progress</div>
   <div class="progress-card">
@@ -443,227 +584,75 @@ canvas#chart {
 
 <script>
 let periodMode = false;
-const CIRCUMFERENCE = 2 * Math.PI * 52; // 326.7
+const CIRCUMFERENCE = 2 * Math.PI * 52;
 
-const normalExercises = [
-  "Frog Pumps","Rest","Reverse Lunges","Rest","Bird Dog","Rest",
-  "Incline Push-Ups","Rest","Side Plank","Rest","Superman Hold"
+// ── Exercise data with hints ──
+const warmupExercises = [
+  { name: "Neck Rolls",         hint: "Slow circles, 5 each side",       dur: 30, type: "stretch" },
+  { name: "Rest",               hint: "",                                  dur: 10, type: "rest"    },
+  { name: "Shoulder Circles",   hint: "Big circles, forward & back",      dur: 30, type: "stretch" },
+  { name: "Rest",               hint: "",                                  dur: 10, type: "rest"    },
+  { name: "Hip Circles",        hint: "Hands on hips, wide circles",      dur: 30, type: "stretch" },
+  { name: "Rest",               hint: "",                                  dur: 10, type: "rest"    },
+  { name: "Leg Swings",         hint: "Hold wall, swing each leg 10x",    dur: 30, type: "stretch" },
+  { name: "Rest",               hint: "",                                  dur: 10, type: "rest"    },
+  { name: "Arm Cross Stretch",  hint: "Pull each arm across chest",       dur: 30, type: "stretch" },
 ];
-const periodExercises = ["Stretch","Rest","Glute Bridge","Rest","Bird Dog","Rest"];
 
-let exercises = normalExercises;
-let index = 0, time = 40, interval, totalTime = 40;
-let paused = false;
+const mainExercises = [
+  { name: "Frog Pumps",         hint: "Soles together, thrust hips up",   dur: 40, type: "exercise" },
+  { name: "Rest",               hint: "",                                  dur: 20, type: "rest"     },
+  { name: "Reverse Lunges",     hint: "Step back, knee hovers floor",     dur: 40, type: "exercise" },
+  { name: "Rest",               hint: "",                                  dur: 20, type: "rest"     },
+  { name: "Bird Dog",           hint: "Opposite arm & leg, hold 2s",      dur: 40, type: "exercise" },
+  { name: "Rest",               hint: "",                                  dur: 20, type: "rest"     },
+  { name: "Incline Push-Ups",   hint: "Hands elevated, chest to surface", dur: 40, type: "exercise" },
+  { name: "Rest",               hint: "",                                  dur: 20, type: "rest"     },
+  { name: "Side Plank",         hint: "Stack feet, hold hips high",       dur: 40, type: "exercise" },
+  { name: "Rest",               hint: "",                                  dur: 20, type: "rest"     },
+  { name: "Superman Hold",      hint: "Lift arms & legs off floor",       dur: 40, type: "exercise" },
+];
 
-function speak(text){
-  try { speechSynthesis.speak(new SpeechSynthesisUtterance(text)); } catch(e){}
-}
+const cooldownExercises = [
+  { name: "Child's Pose",       hint: "Knees wide, arms reach forward",   dur: 40, type: "stretch" },
+  { name: "Rest",               hint: "",                                  dur: 10, type: "rest"    },
+  { name: "Pigeon Pose",        hint: "30s each side, breathe deep",      dur: 40, type: "stretch" },
+  { name: "Rest",               hint: "",                                  dur: 10, type: "rest"    },
+  { name: "Seated Hamstring",   hint: "Reach toward toes, soft knees",    dur: 40, type: "stretch" },
+  { name: "Rest",               hint: "",                                  dur: 10, type: "rest"    },
+  { name: "Figure Four Stretch",hint: "Lying on back, ankle on knee",     dur: 40, type: "stretch" },
+  { name: "Rest",               hint: "",                                  dur: 10, type: "rest"    },
+  { name: "Cat-Cow",            hint: "Slow breath, 6 reps",              dur: 40, type: "stretch" },
+  { name: "Rest",               hint: "",                                  dur: 10, type: "rest"    },
+  { name: "Spinal Twist",       hint: "Both sides, breathe out into it",  dur: 40, type: "stretch" },
+];
 
-function toggleMode(){
-  periodMode = !periodMode;
-  exercises = periodMode ? periodExercises : normalExercises;
-  const btn = document.getElementById("modeBtn");
-  btn.textContent = periodMode ? "Period Mode" : "Normal Mode";
-  btn.classList.toggle("period", periodMode);
-}
+const periodWarmup    = [
+  { name: "Neck Rolls",       hint: "Gentle, slow circles",              dur: 30, type: "stretch" },
+  { name: "Shoulder Rolls",   hint: "Easy, backward & forward",          dur: 30, type: "stretch" },
+  { name: "Hip Sways",        hint: "Side to side, gentle",              dur: 30, type: "stretch" },
+];
+const periodMain      = [
+  { name: "Glute Bridge",     hint: "Feet flat, squeeze at top",         dur: 40, type: "exercise" },
+  { name: "Rest",             hint: "",                                   dur: 20, type: "rest"     },
+  { name: "Bird Dog",         hint: "Slow and controlled",               dur: 40, type: "exercise" },
+  { name: "Rest",             hint: "",                                   dur: 20, type: "rest"     },
+  { name: "Stretch",          hint: "Full body reach and release",       dur: 40, type: "stretch"  },
+];
+const periodCooldown  = [
+  { name: "Child's Pose",     hint: "Hold and breathe, 3 deep breaths",  dur: 40, type: "stretch" },
+  { name: "Supine Twist",     hint: "Both sides, be very gentle",        dur: 40, type: "stretch" },
+  { name: "Legs Up Wall",     hint: "Hips close to wall, rest here",     dur: 60, type: "stretch" },
+];
 
-function startWorkout(){
-  clearInterval(interval);
-  index = 0;
-  paused = false;
-  run();
-}
-
-function pauseWorkout(){
-  if(paused){
-    paused = false;
-    run();
-  } else {
-    paused = true;
-    clearInterval(interval);
-  }
-}
-
-function resetWorkout(){
-  clearInterval(interval);
-  index = 0; time = 40; paused = false;
-  setExerciseDisplay("Ready");
-  setTimer(40, 40);
-}
-
-function run(){
-  if(index >= exercises.length){
-    speak("Workout complete. Great job!");
-    setExerciseDisplay("Done! 🎉");
-    setTimer(0, 1);
-    markDone();
-    return;
-  }
-  const current = exercises[index];
-  totalTime = time = current === "Rest" ? 20 : 40;
-  setExerciseDisplay(current);
-  speak(current);
-
-  clearInterval(interval);
-  interval = setInterval(()=>{
-    setTimer(time, totalTime);
-    if(time-- <= 0){
-      clearInterval(interval);
-      index++;
-      run();
-    }
-  }, 1000);
-}
-
-function setExerciseDisplay(text){
-  const el = document.getElementById("exercise");
-  el.style.opacity = 0;
-  el.style.transform = "translateY(8px)";
-  setTimeout(()=>{
-    el.textContent = text;
-    el.className = text === "Rest" ? "is-rest" : "";
-    el.style.transition = "all .25s ease";
-    el.style.opacity = 1;
-    el.style.transform = "translateY(0)";
-  }, 150);
-}
-
-function setTimer(val, total){
-  document.getElementById("timer").textContent = String(val).padStart(2,'0');
-  const ring = document.getElementById("ringFg");
-  const pct = total > 0 ? val / total : 0;
-  ring.style.strokeDashoffset = CIRCUMFERENCE * (1 - pct);
-  ring.style.stroke = (exercises[index] === "Rest") ? "#4a6080" : "var(--accent)";
-}
-
-function markDone(){
-  localStorage.setItem(new Date().toDateString(), "done");
-  updateCalendar();
-  updateStreak();
-}
-
-function createCalendar(){
-  const cal = document.getElementById("calendar");
-  for(let i = 1; i <= 28; i++){
-    const d = document.createElement("div");
-    d.className = "day";
-    d.textContent = i;
-    d.onclick = startWorkout;
-    cal.appendChild(d);
-  }
-}
-
-function updateCalendar(){
-  document.querySelectorAll(".day").forEach((d, i) => {
-    const date = new Date();
-    date.setDate(i + 1);
-    d.classList.toggle("done", !!localStorage.getItem(date.toDateString()));
-  });
-}
-
-function updateStreak(){
-  let streak = 0;
-  for(let i = 0; i < 30; i++){
-    const d = new Date();
-    d.setDate(d.getDate() - i);
-    if(localStorage.getItem(d.toDateString())) streak++;
-    else break;
-  }
-  document.getElementById("streakNum").textContent = streak;
-  const msgs = ["Start today!", "Keep it up!", "You're on fire!", "Unstoppable!", "Legendary!"];
-  document.getElementById("streakMsg").textContent = msgs[Math.min(streak, msgs.length-1)];
-}
-
-function saveProgress(){
-  const waist = parseFloat(document.getElementById("waist").value);
-  if(isNaN(waist)) return;
-  const data = JSON.parse(localStorage.getItem("waistLog") || "[]");
-  data.push(waist);
-  localStorage.setItem("waistLog", JSON.stringify(data));
-  document.getElementById("waist").value = "";
-  drawChart(data);
-}
-
-function drawChart(data){
-  const canvas = document.getElementById("chart");
-  const ctx = canvas.getContext("2d");
-  const dpr = window.devicePixelRatio || 1;
-  const W = canvas.parentElement.clientWidth - 44;
-  const H = 120;
-
-  canvas.width  = W * dpr;
-  canvas.height = H * dpr;
-  canvas.style.width  = W + "px";
-  canvas.style.height = H + "px";
-  ctx.scale(dpr, dpr);
-  ctx.clearRect(0, 0, W, H);
-
-  if(data.length < 2){
-    ctx.font = "500 12px 'DM Mono'";
-    ctx.fillStyle = "#4a6080";
-    ctx.textAlign = "center";
-    ctx.fillText("Log measurements to see progress", W/2, H/2);
-    return;
-  }
-
-  const pad = 12;
-  const min = Math.min(...data) - 2;
-  const max = Math.max(...data) + 2;
-  const range = max - min || 1;
-  const xStep = (W - pad*2) / (data.length - 1);
-
-  const toX = i => pad + i * xStep;
-  const toY = v => H - pad - ((v - min) / range) * (H - pad*2);
-
-  // Grid lines
-  ctx.strokeStyle = "rgba(255,255,255,.05)";
-  ctx.lineWidth = 1;
-  for(let g = 0; g <= 4; g++){
-    const y = pad + (g / 4) * (H - pad*2);
-    ctx.beginPath(); ctx.moveTo(pad, y); ctx.lineTo(W - pad, y); ctx.stroke();
-  }
-
-  // Gradient fill
-  const grad = ctx.createLinearGradient(0, pad, 0, H);
-  grad.addColorStop(0, "rgba(0,229,160,.25)");
-  grad.addColorStop(1, "rgba(0,229,160,0)");
-
-  ctx.beginPath();
-  data.forEach((v, i) => {
-    i === 0 ? ctx.moveTo(toX(i), toY(v)) : ctx.lineTo(toX(i), toY(v));
-  });
-  ctx.lineTo(toX(data.length-1), H);
-  ctx.lineTo(toX(0), H);
-  ctx.closePath();
-  ctx.fillStyle = grad;
-  ctx.fill();
-
-  // Line
-  ctx.beginPath();
-  data.forEach((v, i) => {
-    i === 0 ? ctx.moveTo(toX(i), toY(v)) : ctx.lineTo(toX(i), toY(v));
-  });
-  ctx.strokeStyle = "#00e5a0";
-  ctx.lineWidth = 2;
-  ctx.lineJoin = "round";
-  ctx.stroke();
-
-  // Dots
-  data.forEach((v, i) => {
-    ctx.beginPath();
-    ctx.arc(toX(i), toY(v), 4, 0, Math.PI*2);
-    ctx.fillStyle = "#080b10";
-    ctx.fill();
-    ctx.strokeStyle = "#00e5a0";
-    ctx.lineWidth = 2;
-    ctx.stroke();
-  });
-}
-
-createCalendar();
-updateCalendar();
-updateStreak();
-drawChart(JSON.parse(localStorage.getItem("waistLog") || "[]"));
-</script>
-</body>
-</html>
+// Stretch reference data
+const stretchData = {
+  warmup: [
+    { icon:"🔄", name:"Neck Rolls",        desc:"Slowly roll head in full circles, 5 reps each direction. Ease any tension before loading the spine.",         dur:"30s" },
+    { icon:"💫", name:"Shoulder Circles",  desc:"Arms loose, draw big backward then forward circles to open the shoulder girdle.",                             dur:"30s" },
+    { icon:"🌀", name:"Hip Circles",       desc:"Hands on hips, trace wide circles to warm the hip flexors and glutes.",                                        dur:"30s" },
+    { icon:"🦵", name:"Leg Swings",        desc:"Hold a wall for balance. Swing each leg forward/back, then across the body — 10 reps per direction.",         dur:"30s" },
+    { icon:"🤸", name:"Arm Cross Stretch", desc:"Pull each arm across the chest with the opposite hand, hold 10s. Targets posterior shoulder.",                 dur:"30s" },
+  ],
+  cooldown: [
+    { icon:"🧘", name:"Child's Pose",         desc:"Kneel, sink hips to heels, arms reach forward. Breathe into the lower back.",             
