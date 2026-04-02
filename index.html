@@ -584,384 +584,251 @@ canvas#chart {
 
 <script>
 let periodMode = false;
-const CIRCUMFERENCE = 2 * Math.PI * 52;
+let interval;
 
-// ── Exercise data with hints ──
-const warmupExercises = [
-  { name: "Neck Rolls",         hint: "Slow circles, 5 each side",       dur: 30, type: "stretch" },
-  { name: "Rest",               hint: "",                                  dur: 10, type: "rest"    },
-  { name: "Shoulder Circles",   hint: "Big circles, forward & back",      dur: 30, type: "stretch" },
-  { name: "Rest",               hint: "",                                  dur: 10, type: "rest"    },
-  { name: "Hip Circles",        hint: "Hands on hips, wide circles",      dur: 30, type: "stretch" },
-  { name: "Rest",               hint: "",                                  dur: 10, type: "rest"    },
-  { name: "Leg Swings",         hint: "Hold wall, swing each leg 10x",    dur: 30, type: "stretch" },
-  { name: "Rest",               hint: "",                                  dur: 10, type: "rest"    },
-  { name: "Arm Cross Stretch",  hint: "Pull each arm across chest",       dur: 30, type: "stretch" },
-];
+// ─────────────────────────────
+// 🧠 AUTO PROGRESSION
+// ─────────────────────────────
+function getWeek() {
+  let start = localStorage.getItem("start");
+  if (!start) {
+    start = new Date();
+    localStorage.setItem("start", start);
+  }
+  let diff = (new Date() - new Date(start)) / (1000*60*60*24);
+  return Math.min(4, Math.floor(diff/7)+1);
+}
 
-const mainExercises = [
-  { name: "Frog Pumps",         hint: "Soles together, thrust hips up",   dur: 40, type: "exercise" },
-  { name: "Rest",               hint: "",                                  dur: 20, type: "rest"     },
-  { name: "Reverse Lunges",     hint: "Step back, knee hovers floor",     dur: 40, type: "exercise" },
-  { name: "Rest",               hint: "",                                  dur: 20, type: "rest"     },
-  { name: "Bird Dog",           hint: "Opposite arm & leg, hold 2s",      dur: 40, type: "exercise" },
-  { name: "Rest",               hint: "",                                  dur: 20, type: "rest"     },
-  { name: "Incline Push-Ups",   hint: "Hands elevated, chest to surface", dur: 40, type: "exercise" },
-  { name: "Rest",               hint: "",                                  dur: 20, type: "rest"     },
-  { name: "Side Plank",         hint: "Stack feet, hold hips high",       dur: 40, type: "exercise" },
-  { name: "Rest",               hint: "",                                  dur: 20, type: "rest"     },
-  { name: "Superman Hold",      hint: "Lift arms & legs off floor",       dur: 40, type: "exercise" },
-];
+function getSettings() {
+  let week = getWeek();
+  let work = 40, rounds = 2;
 
-const cooldownExercises = [
-  { name: "Child's Pose",       hint: "Knees wide, arms reach forward",   dur: 40, type: "stretch" },
-  { name: "Rest",               hint: "",                                  dur: 10, type: "rest"    },
-  { name: "Pigeon Pose",        hint: "30s each side, breathe deep",      dur: 40, type: "stretch" },
-  { name: "Rest",               hint: "",                                  dur: 10, type: "rest"    },
-  { name: "Seated Hamstring",   hint: "Reach toward toes, soft knees",    dur: 40, type: "stretch" },
-  { name: "Rest",               hint: "",                                  dur: 10, type: "rest"    },
-  { name: "Figure Four Stretch",hint: "Lying on back, ankle on knee",     dur: 40, type: "stretch" },
-  { name: "Rest",               hint: "",                                  dur: 10, type: "rest"    },
-  { name: "Cat-Cow",            hint: "Slow breath, 6 reps",              dur: 40, type: "stretch" },
-  { name: "Rest",               hint: "",                                  dur: 10, type: "rest"    },
-  { name: "Spinal Twist",       hint: "Both sides, breathe out into it",  dur: 40, type: "stretch" },
-];
+  if (week === 2) work = 45;
+  if (week === 3) rounds = 3;
+  if (week === 4) { work = 45; rounds = 3; }
 
-const periodWarmup    = [
-  { name: "Neck Rolls",       hint: "Gentle, slow circles",              dur: 30, type: "stretch" },
-  { name: "Shoulder Rolls",   hint: "Easy, backward & forward",          dur: 30, type: "stretch" },
-  { name: "Hip Sways",        hint: "Side to side, gentle",              dur: 30, type: "stretch" },
-];
-const periodMain      = [
-  { name: "Glute Bridge",     hint: "Feet flat, squeeze at top",         dur: 40, type: "exercise" },
-  { name: "Rest",             hint: "",                                   dur: 20, type: "rest"     },
-  { name: "Bird Dog",         hint: "Slow and controlled",               dur: 40, type: "exercise" },
-  { name: "Rest",             hint: "",                                   dur: 20, type: "rest"     },
-  { name: "Stretch",          hint: "Full body reach and release",       dur: 40, type: "stretch"  },
-];
-const periodCooldown  = [
-  { name: "Child's Pose",     hint: "Hold and breathe, 3 deep breaths",  dur: 40, type: "stretch" },
-  { name: "Supine Twist",     hint: "Both sides, be very gentle",        dur: 40, type: "stretch" },
-  { name: "Legs Up Wall",     hint: "Hips close to wall, rest here",     dur: 60, type: "stretch" },
-];
+  return {work, rounds, week};
+}
 
-// Stretch reference data
-const stretchData = {
-  warmup: [
-    { icon:"🔄", name:"Neck Rolls",        desc:"Slowly roll head in full circles, 5 reps each direction. Ease any tension before loading the spine.",         dur:"30s" },
-    { icon:"💫", name:"Shoulder Circles",  desc:"Arms loose, draw big backward then forward circles to open the shoulder girdle.",                             dur:"30s" },
-    { icon:"🌀", name:"Hip Circles",       desc:"Hands on hips, trace wide circles to warm the hip flexors and glutes.",                                        dur:"30s" },
-    { icon:"🦵", name:"Leg Swings",        desc:"Hold a wall for balance. Swing each leg forward/back, then across the body — 10 reps per direction.",         dur:"30s" },
-    { icon:"🤸", name:"Arm Cross Stretch", desc:"Pull each arm across the chest with the opposite hand, hold 10s. Targets posterior shoulder.",                 dur:"30s" },
-  ],
-  cooldown: [
-    { icon:"🧘", name:"Child's Pose",         desc:"Kneel, sink hips to heels, arms reach forward. Breathe into the lower back.",                              dur:"40s" },
-    { icon:"🕊️", name:"Pigeon Pose",          desc:"Front shin parallel to mat, lean forward over it. Deep hip opener — do both sides.",                       dur:"40s each" },
-    { icon:"🪑", name:"Seated Hamstring",      desc:"Legs extended, hinge at hips (not waist) and reach toward feet. Soft bend in knees is fine.",             dur:"40s" },
-    { icon:"4️⃣", name:"Figure Four Stretch",  desc:"Lying on back, cross ankle over opposite knee and draw the leg toward you. Great for piriformis.",         dur:"40s each" },
-    { icon:"🐈", name:"Cat-Cow",              desc:"On all fours — inhale to drop belly (cow), exhale to round spine (cat). 6 slow reps.",                     dur:"6 reps" },
-    { icon:"🌿", name:"Spinal Twist",         desc:"Lying on back, let bent knees fall to one side while arms open wide. Hold, then switch.",                  dur:"40s each" },
-  ]
+// ─────────────────────────────
+// 🏋️ PROGRAM DATA
+// ─────────────────────────────
+const PROGRAMS = {
+  normal: {
+    warmup: warmupExercises,
+    workout: [
+      { name:"Frog Pumps", hint:"Pause 2s at top, squeeze", dur:40 },
+      { name:"Rest", dur:20 },
+      { name:"Reverse Lunges", hint:"Lean slightly forward", dur:40 },
+      { name:"Rest", dur:20 },
+      { name:"Bird Dog", hint:"Hold 2s each rep", dur:40 },
+      { name:"Rest", dur:20 },
+      { name:"Incline Push-Ups", hint:"Control down slowly", dur:40 },
+      { name:"Rest", dur:20 },
+      { name:"Dead Bug", hint:"Keep lower back flat", dur:40 }, // replaced
+      { name:"Rest", dur:20 },
+      { name:"Superman Hold", hint:"Lift and hold", dur:40 }
+    ],
+    finisher: [
+      { name:"Glute Bridge Hold", hint:"Squeeze glutes hard", dur:60 },
+      { name:"Dead Bug", hint:"Slow and controlled", dur:60 }
+    ],
+    cooldown: cooldownExercises
+  },
+
+  period: {
+    warmup: periodWarmup,
+    workout: [
+      { name:"Glute Bridge", hint:"Gentle squeeze", dur:30 },
+      { name:"Rest", dur:15 },
+      { name:"Bird Dog", hint:"Slow and controlled", dur:30 }
+    ],
+    finisher: [],
+    cooldown: periodCooldown
+  }
 };
 
-let phases;
-let phaseIndex = 0, exerciseIndex = 0, time = 40, totalTime = 40, interval, paused = false;
-let currentPhase = "workout";
+const PHASES = ["warmup","workout","finisher","cooldown"];
 
-function buildPhases(){
-  if(periodMode){
-    return [
-      { id:"warmup",   label:"Warm-Up",   exercises: periodWarmup   },
-      { id:"workout",  label:"Workout",   exercises: periodMain     },
-      { id:"cooldown", label:"Cool-Down", exercises: periodCooldown },
-    ];
-  }
-  return [
-    { id:"warmup",   label:"Warm-Up",   exercises: warmupExercises   },
-    { id:"workout",  label:"Workout",   exercises: mainExercises     },
-    { id:"cooldown", label:"Cool-Down", exercises: cooldownExercises },
-  ];
-}
+let state;
 
-function speak(text){
-  try { speechSynthesis.cancel(); speechSynthesis.speak(new SpeechSynthesisUtterance(text)); } catch(e){}
-}
+// ─────────────────────────────
+// ▶️ START
+// ─────────────────────────────
+function startWorkout() {
+  const settings = getSettings();
+  const program = JSON.parse(JSON.stringify(PROGRAMS[periodMode ? "period":"normal"]));
 
-function toggleMode(){
-  periodMode = !periodMode;
-  phases = buildPhases(); // rebuild so next Start uses correct exercises
-  const btn = document.getElementById("modeBtn");
-  btn.textContent = periodMode ? "Period Mode" : "Normal Mode";
-  btn.classList.toggle("period", periodMode);
-}
+  // apply progression
+  program.workout.forEach(ex => {
+    if (ex.name !== "Rest") ex.dur = settings.work;
+  });
 
-function startWorkout(){
-  clearInterval(interval);
-  paused = false;
-  phases = buildPhases();
-  phaseIndex = 0;
-  exerciseIndex = 0;
+  document.getElementById("phaseBadge").innerText = "● Week " + settings.week;
+
+  state = {
+    program,
+    phaseIndex: 0,
+    exerciseIndex: 0,
+    rounds: settings.rounds,
+    currentRound: 1,
+    running: true
+  };
+
   run();
 }
 
-function pauseWorkout(){
-  if(paused){ paused = false; run(); }
-  else { paused = true; clearInterval(interval); }
-}
+// ─────────────────────────────
+// 🔁 RUN LOOP
+// ─────────────────────────────
+function run() {
+  if (!state.running) return;
 
-function resetWorkout(){
-  clearInterval(interval);
-  phaseIndex = 0; exerciseIndex = 0; time = 40; paused = false;
-  setExerciseDisplay("Ready", "");
-  setTimer(40, 40);
-  updatePhaseUI(1, -1); // show workout phase as default
-}
+  const phase = PHASES[state.phaseIndex];
+  const list = state.program[phase];
 
-function run(){
-  const phase = phases[phaseIndex];
-  if(exerciseIndex >= phase.exercises.length){
-    // Announce phase done
-    if(phaseIndex < phases.length - 1){
-      speak(phase.label + " complete. Get ready.");
-      updatePhaseUI(phaseIndex + 1, -1);
-      setTimeout(()=>{
-        phaseIndex++;
-        exerciseIndex = 0;
-        run();
-      }, 2500);
-      return;
-    } else {
-      speak("Workout complete. Great job!");
-      setExerciseDisplay("All Done!", "You crushed it 🎉");
-      setTimer(0, 1);
-      markDone();
-      updatePhaseUI(2, phaseIndex);
-      return;
-    }
+  if (!list || list.length === 0) {
+    state.phaseIndex++;
+    run();
+    return;
   }
 
-  const ex = phases[phaseIndex].exercises[exerciseIndex];
-  currentPhase = phases[phaseIndex].id;
-  totalTime = time = ex.dur;
+  const ex = list[state.exerciseIndex];
 
-  updatePhaseUI(phaseIndex, phaseIndex);
-  setExerciseDisplay(ex.name, ex.hint);
-  speak(ex.name);
+  updateUI(ex, phase);
+
+  let time = ex.dur;
 
   clearInterval(interval);
-  interval = setInterval(()=>{
-    setTimer(time, totalTime);
-    if(time-- <= 0){
+  interval = setInterval(() => {
+    updateTimer(time, ex.dur);
+
+    if (time === 5) speak("5 seconds");
+
+    if (time-- <= 0) {
       clearInterval(interval);
-      exerciseIndex++;
+      next();
       run();
     }
   }, 1000);
 }
 
-function updatePhaseUI(active, done){
-  const badge = document.getElementById("phaseBadge");
-  const phaseClasses = ["warmup","workout","cooldown"];
-  const phaseLabels  = ["● Warm-Up","● Workout","● Cool-Down"];
-  const badgeClasses = ["phase-warmup","phase-workout","phase-cooldown"];
+// ─────────────────────────────
+// ➡️ NEXT STEP
+// ─────────────────────────────
+function next() {
+  const phase = PHASES[state.phaseIndex];
+  const list = state.program[phase];
 
-  badge.className = "phase-badge " + badgeClasses[active];
-  badge.textContent = phaseLabels[active];
+  state.exerciseIndex++;
 
-  for(let i = 0; i < 3; i++){
-    const dot = document.getElementById("dot" + i);
-    dot.classList.remove("active","done");
-    if(i < active) dot.classList.add("done");
-    if(i === active) dot.classList.add("active");
+  if (state.exerciseIndex >= list.length) {
+    state.exerciseIndex = 0;
+
+    if (phase === "workout" && state.currentRound < state.rounds) {
+      state.currentRound++;
+      return;
+    }
+
+    state.currentRound = 1;
+    state.phaseIndex++;
+
+    if (state.phaseIndex >= PHASES.length) {
+      finishWorkout();
+      return;
+    }
   }
 }
 
-function setExerciseDisplay(text, hint){
-  const el = document.getElementById("exercise");
-  const hintEl = document.getElementById("exerciseHint");
-  el.style.opacity = 0;
-  el.style.transform = "translateY(8px)";
-  hintEl.style.opacity = 0;
-  setTimeout(()=>{
-    el.textContent = text;
-    hintEl.textContent = hint || "";
-    const isRest = text === "Rest";
-    el.className = isRest ? "is-rest" : "";
+// ─────────────────────────────
+// 🎯 UI UPDATE
+// ─────────────────────────────
+function updateUI(ex, phase) {
+  document.getElementById("exercise").innerText = ex.name;
+  document.getElementById("exerciseHint").innerText = ex.hint || "";
 
-    // Ring colour by phase
-    const ring = document.getElementById("ringFg");
-    ring.classList.remove("warmup","cooldown");
-    if(currentPhase === "warmup")   ring.classList.add("warmup");
-    if(currentPhase === "cooldown") ring.classList.add("cooldown");
+  const badge = document.getElementById("phaseBadge");
 
-    el.style.transition = "all .25s ease";
-    hintEl.style.transition = "opacity .25s ease";
-    el.style.opacity = 1;
-    el.style.transform = "translateY(0)";
-    hintEl.style.opacity = 1;
-  }, 150);
+  badge.className = "phase-badge";
+
+  if (phase === "warmup") {
+    badge.classList.add("phase-warmup");
+    badge.innerText = "● Warm Up";
+  }
+  else if (phase === "workout") {
+    badge.classList.add("phase-workout");
+    badge.innerText = "● Workout";
+  }
+  else if (phase === "finisher") {
+    badge.classList.add("phase-workout");
+    badge.innerText = "● Finisher";
+  }
+  else {
+    badge.classList.add("phase-cooldown");
+    badge.innerText = "● Cooldown";
+  }
+
+  speak(ex.name);
 }
 
-function setTimer(val, total){
-  document.getElementById("timer").textContent = String(val).padStart(2,'0');
+// ─────────────────────────────
+// ⏱ TIMER RING
+// ─────────────────────────────
+function updateTimer(time, total) {
+  document.getElementById("timer").innerText = time;
+
   const ring = document.getElementById("ringFg");
-  const pct = total > 0 ? val / total : 0;
-  ring.style.strokeDashoffset = CIRCUMFERENCE * (1 - pct);
+  const progress = time / total;
+  const offset = 326.7 * (1 - progress);
 
-  // override stroke for rest regardless of phase
-  const phase = phases && phases[phaseIndex];
-  const ex = phase && phase.exercises[exerciseIndex];
-  if(ex && ex.type === "rest") ring.style.stroke = "#4a6080";
+  ring.style.strokeDashoffset = offset;
 }
 
-function markDone(){
-  localStorage.setItem(new Date().toDateString(), "done");
-  updateCalendar();
+// ─────────────────────────────
+// 🔊 VOICE
+// ─────────────────────────────
+function speak(text) {
+  const msg = new SpeechSynthesisUtterance(text);
+  speechSynthesis.speak(msg);
+}
+
+// ─────────────────────────────
+// ⏸ CONTROLS
+// ─────────────────────────────
+function pauseWorkout() {
+  state.running = false;
+  clearInterval(interval);
+}
+
+function resetWorkout() {
+  clearInterval(interval);
+  document.getElementById("exercise").innerText = "Ready";
+  document.getElementById("timer").innerText = "00";
+}
+
+// ─────────────────────────────
+// 🩸 MODE TOGGLE
+// ─────────────────────────────
+function toggleMode() {
+  periodMode = !periodMode;
+
+  const btn = document.getElementById("modeBtn");
+  btn.classList.toggle("period");
+
+  btn.innerText = periodMode ? "Period Mode" : "Normal Mode";
+}
+
+// ─────────────────────────────
+// ✅ FINISH
+// ─────────────────────────────
+function finishWorkout() {
+  alert("Workout Complete 🔥");
+
+  let today = new Date().toDateString();
+  localStorage.setItem(today, "done");
+
   updateStreak();
 }
-
-function createCalendar(){
-  const cal = document.getElementById("calendar");
-  for(let i = 1; i <= 28; i++){
-    const d = document.createElement("div");
-    d.className = "day";
-    d.textContent = i;
-    d.onclick = startWorkout;
-    cal.appendChild(d);
-  }
-}
-
-function updateCalendar(){
-  document.querySelectorAll(".day").forEach((d, i) => {
-    const date = new Date();
-    date.setDate(i + 1);
-    d.classList.toggle("done", !!localStorage.getItem(date.toDateString()));
-  });
-}
-
-function updateStreak(){
-  let streak = 0;
-  for(let i = 0; i < 30; i++){
-    const d = new Date();
-    d.setDate(d.getDate() - i);
-    if(localStorage.getItem(d.toDateString())) streak++;
-    else break;
-  }
-  document.getElementById("streakNum").textContent = streak;
-  const msgs = ["Start today!", "Keep it up!", "You're on fire!", "Unstoppable!", "Legendary!"];
-  document.getElementById("streakMsg").textContent = msgs[Math.min(streak, msgs.length-1)];
-}
-
-function saveProgress(){
-  const waist = parseFloat(document.getElementById("waist").value);
-  if(isNaN(waist)) return;
-  const data = JSON.parse(localStorage.getItem("waistLog") || "[]");
-  data.push(waist);
-  localStorage.setItem("waistLog", JSON.stringify(data));
-  document.getElementById("waist").value = "";
-  drawChart(data);
-}
-
-function drawChart(data){
-  const canvas = document.getElementById("chart");
-  const ctx = canvas.getContext("2d");
-  const dpr = window.devicePixelRatio || 1;
-  const W = canvas.parentElement.clientWidth - 44;
-  const H = 120;
-
-  canvas.width  = W * dpr;
-  canvas.height = H * dpr;
-  canvas.style.width  = W + "px";
-  canvas.style.height = H + "px";
-  ctx.scale(dpr, dpr);
-  ctx.clearRect(0, 0, W, H);
-
-  if(data.length < 2){
-    ctx.font = "500 12px 'DM Mono'";
-    ctx.fillStyle = "#4a6080";
-    ctx.textAlign = "center";
-    ctx.fillText("Log measurements to see progress", W/2, H/2);
-    return;
-  }
-
-  const pad = 12;
-  const min = Math.min(...data) - 2;
-  const max = Math.max(...data) + 2;
-  const range = max - min || 1;
-  const xStep = (W - pad*2) / (data.length - 1);
-
-  const toX = i => pad + i * xStep;
-  const toY = v => H - pad - ((v - min) / range) * (H - pad*2);
-
-  ctx.strokeStyle = "rgba(255,255,255,.05)";
-  ctx.lineWidth = 1;
-  for(let g = 0; g <= 4; g++){
-    const y = pad + (g / 4) * (H - pad*2);
-    ctx.beginPath(); ctx.moveTo(pad, y); ctx.lineTo(W - pad, y); ctx.stroke();
-  }
-
-  const grad = ctx.createLinearGradient(0, pad, 0, H);
-  grad.addColorStop(0, "rgba(0,229,160,.25)");
-  grad.addColorStop(1, "rgba(0,229,160,0)");
-
-  ctx.beginPath();
-  data.forEach((v, i) => { i === 0 ? ctx.moveTo(toX(i), toY(v)) : ctx.lineTo(toX(i), toY(v)); });
-  ctx.lineTo(toX(data.length-1), H);
-  ctx.lineTo(toX(0), H);
-  ctx.closePath();
-  ctx.fillStyle = grad;
-  ctx.fill();
-
-  ctx.beginPath();
-  data.forEach((v, i) => { i === 0 ? ctx.moveTo(toX(i), toY(v)) : ctx.lineTo(toX(i), toY(v)); });
-  ctx.strokeStyle = "#00e5a0";
-  ctx.lineWidth = 2;
-  ctx.lineJoin = "round";
-  ctx.stroke();
-
-  data.forEach((v, i) => {
-    ctx.beginPath();
-    ctx.arc(toX(i), toY(v), 4, 0, Math.PI*2);
-    ctx.fillStyle = "#080b10";
-    ctx.fill();
-    ctx.strokeStyle = "#00e5a0";
-    ctx.lineWidth = 2;
-    ctx.stroke();
-  });
-}
-
-// ── Stretch reference tab rendering ──
-let activeStretchTab = "warmup";
-function showStretchTab(tab, el){
-  activeStretchTab = tab;
-  document.querySelectorAll(".stretch-tab").forEach(t => t.classList.remove("active"));
-  el.classList.add("active");
-  renderStretchList();
-}
-
-function renderStretchList(){
-  const list = document.getElementById("stretchList");
-  const items = stretchData[activeStretchTab];
-  const cls = activeStretchTab === "warmup" ? "wu" : "cd";
-  list.innerHTML = items.map(s => `
-    <div class="stretch-item">
-      <div class="stretch-icon ${cls}">${s.icon}</div>
-      <div class="stretch-info">
-        <div class="stretch-name">${s.name}</div>
-        <div class="stretch-desc">${s.desc}</div>
-      </div>
-      <div class="stretch-dur">${s.dur}</div>
-    </div>
-  `).join("");
-}
-
-phases = buildPhases();
-createCalendar();
-updateCalendar();
-updateStreak();
-drawChart(JSON.parse(localStorage.getItem("waistLog") || "[]"));
-renderStretchList();
-updatePhaseUI(1, -1);
 </script>
 </body>
 </html>
