@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -705,15 +706,27 @@ const CIRCUMFERENCE = 2 * Math.PI * 52;
 
 // ── Exercise data with hints ──
 const warmupExercises = [
-  { name: "Neck Rolls",         hint: "Slow circles, 5 each side",       dur: 30, type: "stretch" },
-  { name: "Rest",               hint: "",                                  dur: 10, type: "rest"    },
-  { name: "Shoulder Circles",   hint: "Big circles, forward & back",      dur: 30, type: "stretch" },
-  { name: "Rest",               hint: "",                                  dur: 10, type: "rest"    },
-  { name: "Hip Circles",        hint: "Hands on hips, wide circles",      dur: 30, type: "stretch" },
-  { name: "Rest",               hint: "",                                  dur: 10, type: "rest"    },
-  { name: "Leg Swings",         hint: "Hold wall, swing each leg 10x",    dur: 30, type: "stretch" },
-  { name: "Rest",               hint: "",                                  dur: 10, type: "rest"    },
-  { name: "Arm Cross Stretch",  hint: "Pull each arm across chest",       dur: 30, type: "stretch" },
+  // ── Lower body activation first ──
+  { name: "Hip Circles",             hint: "Hands on hips, draw big slow circles both ways",    dur: 30, type: "stretch" },
+  { name: "Rest",                    hint: "",                                                    dur: 10, type: "rest"    },
+  { name: "Leg Swings",              hint: "Hold wall, swing each leg fwd/back 10x per side",   dur: 30, type: "stretch" },
+  { name: "Rest",                    hint: "",                                                    dur: 10, type: "rest"    },
+  { name: "Glute Bridge Activation", hint: "Slow 10 reps — squeeze hard at the top each time",  dur: 30, type: "stretch" },
+  { name: "Rest",                    hint: "",                                                    dur: 10, type: "rest"    },
+  { name: "World's Greatest Stretch",hint: "Lunge, drop elbow to floor, rotate arm to sky",     dur: 40, type: "stretch" },
+  { name: "Rest",                    hint: "",                                                    dur: 10, type: "rest"    },
+  // ── Upper body activation ──
+  { name: "Neck Rolls",              hint: "Slow half-circles ear to ear, not full circles",     dur: 30, type: "stretch" },
+  { name: "Rest",                    hint: "",                                                    dur: 10, type: "rest"    },
+  { name: "Shoulder Rolls",          hint: "Big backward rolls, open the chest",                 dur: 30, type: "stretch" },
+  { name: "Rest",                    hint: "",                                                    dur: 10, type: "rest"    },
+  { name: "Chest Opener",            hint: "Clasp hands behind back, lift and squeeze",          dur: 30, type: "stretch" },
+  { name: "Rest",                    hint: "",                                                    dur: 10, type: "rest"    },
+  { name: "Wall Angels",             hint: "Back flat on wall, slide arms up & down slowly",    dur: 30, type: "stretch" },
+  { name: "Rest",                    hint: "",                                                    dur: 10, type: "rest"    },
+  { name: "Wrist Circles",           hint: "Both directions — prep wrists for push-up load",    dur: 30, type: "stretch" },
+  { name: "Rest",                    hint: "",                                                    dur: 10, type: "rest"    },
+  { name: "Scapular Squeezes",       hint: "Arms out, squeeze shoulder blades together 10x",    dur: 30, type: "stretch" },
 ];
 
 const mainExercises = [
@@ -725,23 +738,40 @@ const mainExercises = [
   { name: "Rest",               hint: "",                                  dur: 20, type: "rest"     },
   { name: "Incline Push-Ups",   hint: "Hands elevated, chest to surface", dur: 40, type: "exercise" },
   { name: "Rest",               hint: "",                                  dur: 20, type: "rest"     },
-  { name: "Dead Bugs",          hint: "Core tight",                        dur: 40, type: "exercise" },
+  { name: "Dead Bug",           hint: "Lower opposite arm & leg, exhale", dur: 40, type: "exercise" },
   { name: "Rest",               hint: "",                                  dur: 20, type: "rest"     },
   { name: "Superman Hold",      hint: "Lift arms & legs off floor",       dur: 40, type: "exercise" },
 ];
 
 const cooldownExercises = [
-  { name: "Child's Pose",       hint: "Knees wide, arms reach forward",   dur: 40, type: "stretch" },
-  { name: "Rest",               hint: "",                                  dur: 10, type: "rest"    },
-  { name: "Pigeon Pose",        hint: "30s each side, breathe deep",      dur: 40, type: "stretch" },
-  { name: "Rest",               hint: "",                                  dur: 10, type: "rest"    },
-  { name: "Seated Hamstring",   hint: "Reach toward toes, soft knees",    dur: 40, type: "stretch" },
-  { name: "Rest",               hint: "",                                  dur: 10, type: "rest"    },
-  { name: "Figure Four Stretch",hint: "Lying on back, ankle on knee",     dur: 40, type: "stretch" },
-  { name: "Rest",               hint: "",                                  dur: 10, type: "rest"    },
-  { name: "Cat-Cow",            hint: "Slow breath, 6 reps",              dur: 40, type: "stretch" },
-  { name: "Rest",               hint: "",                                  dur: 10, type: "rest"    },
-  { name: "Spinal Twist",       hint: "Both sides, breathe out into it",  dur: 40, type: "stretch" },
+  // ── Upper body ──
+  { name: "Child's Pose",             hint: "Arms forward, breathe into upper back & shoulders", dur: 45, type: "stretch" },
+  { name: "Rest",                     hint: "",                                                    dur: 10, type: "rest"    },
+  { name: "Chest Doorway Stretch",    hint: "Arm at 90° on doorframe, lean body forward gently",  dur: 40, type: "stretch" },
+  { name: "Rest",                     hint: "",                                                    dur: 10, type: "rest"    },
+  { name: "Tricep Overhead Stretch",  hint: "Elbow behind head, other hand presses it down",      dur: 40, type: "stretch" },
+  { name: "Rest",                     hint: "",                                                    dur: 10, type: "rest"    },
+  { name: "Cross-Body Shoulder",      hint: "Pull arm across chest, keep shoulder blade down",    dur: 40, type: "stretch" },
+  { name: "Rest",                     hint: "",                                                    dur: 10, type: "rest"    },
+  { name: "Thread the Needle",        hint: "On all fours, slide arm under body — both sides",    dur: 40, type: "stretch" },
+  { name: "Rest",                     hint: "",                                                    dur: 10, type: "rest"    },
+  { name: "Prone Cobra",              hint: "Face down, lift chest, squeeze shoulder blades",     dur: 40, type: "stretch" },
+  { name: "Rest",                     hint: "",                                                    dur: 10, type: "rest"    },
+  // ── Lower body & hips ──
+  { name: "Low Lunge Stretch",        hint: "Back knee down, sink hips forward — both sides",     dur: 45, type: "stretch" },
+  { name: "Rest",                     hint: "",                                                    dur: 10, type: "rest"    },
+  { name: "Pigeon Pose",              hint: "Front shin parallel to mat, lean forward — both sides", dur: 45, type: "stretch" },
+  { name: "Rest",                     hint: "",                                                    dur: 10, type: "rest"    },
+  { name: "Seated Hamstring Stretch", hint: "Legs extended, hinge at hips — soft knees ok",       dur: 40, type: "stretch" },
+  { name: "Rest",                     hint: "",                                                    dur: 10, type: "rest"    },
+  { name: "Figure Four Stretch",      hint: "Lying back, ankle on knee, draw leg toward you",     dur: 40, type: "stretch" },
+  { name: "Rest",                     hint: "",                                                    dur: 10, type: "rest"    },
+  // ── Core decompression ──
+  { name: "Lying Knee Hug",           hint: "Both knees to chest, rock gently side to side",      dur: 40, type: "stretch" },
+  { name: "Rest",                     hint: "",                                                    dur: 10, type: "rest"    },
+  { name: "Cat-Cow",                  hint: "Inhale drop belly, exhale round spine — 6 reps",     dur: 40, type: "stretch" },
+  { name: "Rest",                     hint: "",                                                    dur: 10, type: "rest"    },
+  { name: "Spinal Twist",             hint: "Knees fall to one side, arms wide — both sides",     dur: 45, type: "stretch" },
 ];
 
 const periodWarmup    = [
@@ -765,19 +795,31 @@ const periodCooldown  = [
 // Stretch reference data
 const stretchData = {
   warmup: [
-    { icon:"🔄", name:"Neck Rolls",        desc:"Slowly roll head in full circles, 5 reps each direction. Ease any tension before loading the spine.",         dur:"30s" },
-    { icon:"💫", name:"Shoulder Circles",  desc:"Arms loose, draw big backward then forward circles to open the shoulder girdle.",                             dur:"30s" },
-    { icon:"🌀", name:"Hip Circles",       desc:"Hands on hips, trace wide circles to warm the hip flexors and glutes.",                                        dur:"30s" },
-    { icon:"🦵", name:"Leg Swings",        desc:"Hold a wall for balance. Swing each leg forward/back, then across the body — 10 reps per direction.",         dur:"30s" },
-    { icon:"🤸", name:"Arm Cross Stretch", desc:"Pull each arm across the chest with the opposite hand, hold 10s. Targets posterior shoulder.",                 dur:"30s" },
+    { icon:"🌀", name:"Hip Circles",              desc:"Hands on hips, draw big slow circles in both directions. Lubricates the hip joint and wakes up the glutes before Frog Pumps and Lunges.",                    dur:"30s" },
+    { icon:"🦵", name:"Leg Swings",               desc:"Hold a wall for balance. Swing each leg forward and back 10x, then across the body 10x. Opens the hip flexors and hamstrings dynamically.",                  dur:"30s" },
+    { icon:"🍑", name:"Glute Bridge Activation",  desc:"10 slow reps, squeezing hard at the top for 2 seconds each. This pre-activates the glutes so they fire during Frog Pumps instead of your lower back.",       dur:"30s" },
+    { icon:"🌍", name:"World's Greatest Stretch",  desc:"Step into a lunge, drop your back knee, place same-side elbow to the floor, then rotate that arm up to the ceiling. Does everything in one movement.",       dur:"40s each" },
+    { icon:"🔄", name:"Neck Rolls",               desc:"Slow half-circles from ear to ear — avoid full circles which can strain the cervical spine. 5 reps each side.",                                               dur:"30s" },
+    { icon:"🔁", name:"Shoulder Rolls",           desc:"Roll both shoulders backward in big circles to open the chest and wake up the rotator cuff before push-up load.",                                             dur:"30s" },
+    { icon:"💪", name:"Chest Opener",             desc:"Clasp hands behind your lower back, straighten arms and gently lift while squeezing shoulder blades together. Counters forward posture.",                     dur:"30s" },
+    { icon:"🧱", name:"Wall Angels",              desc:"Stand with full back against a wall, arms at 90°. Slowly slide them overhead and back down without losing wall contact. Activates the rotator cuff.",         dur:"30s" },
+    { icon:"🙌", name:"Wrist Circles",            desc:"Extend arms and rotate wrists in both directions. Essential prep for the wrist joint load from Incline Push-Ups.",                                            dur:"30s" },
+    { icon:"🦅", name:"Scapular Squeezes",        desc:"Arms out at shoulder height, squeeze shoulder blades together firmly 10 times. Activates mid-traps and rhomboids for shoulder stability.",                    dur:"30s" },
   ],
   cooldown: [
-    { icon:"🧘", name:"Child's Pose",         desc:"Kneel, sink hips to heels, arms reach forward. Breathe into the lower back.",                              dur:"40s" },
-    { icon:"🕊️", name:"Pigeon Pose",          desc:"Front shin parallel to mat, lean forward over it. Deep hip opener — do both sides.",                       dur:"40s each" },
-    { icon:"🪑", name:"Seated Hamstring",      desc:"Legs extended, hinge at hips (not waist) and reach toward feet. Soft bend in knees is fine.",             dur:"40s" },
-    { icon:"4️⃣", name:"Figure Four Stretch",  desc:"Lying on back, cross ankle over opposite knee and draw the leg toward you. Great for piriformis.",         dur:"40s each" },
-    { icon:"🐈", name:"Cat-Cow",              desc:"On all fours — inhale to drop belly (cow), exhale to round spine (cat). 6 slow reps.",                     dur:"6 reps" },
-    { icon:"🌿", name:"Spinal Twist",         desc:"Lying on back, let bent knees fall to one side while arms open wide. Hold, then switch.",                  dur:"40s each" },
+    { icon:"🧘", name:"Child's Pose",              desc:"Kneel, sink hips to heels, arms reach forward. Breathe into the upper back — you should feel the stretch between your shoulder blades.",                      dur:"45s" },
+    { icon:"🚪", name:"Chest Doorway Stretch",     desc:"Place forearm on a doorframe at 90°, gently lean your body forward. The #1 stretch for pectoral tightness after push-up work.",                              dur:"40s each" },
+    { icon:"💪", name:"Tricep Overhead Stretch",   desc:"Raise one arm, bend the elbow so your hand reaches down your back. Use your other hand to press the elbow gently downward. Hold each side.",                 dur:"40s each" },
+    { icon:"🤸", name:"Cross-Body Shoulder",       desc:"Pull arm straight across chest with the opposite hand. Keep the shoulder blade down — don't let it ride up. Both sides.",                                    dur:"40s each" },
+    { icon:"🪡", name:"Thread the Needle",         desc:"On all fours, slide one arm under your body along the floor until your shoulder touches down. Deep thoracic rotation — do both sides.",                      dur:"40s each" },
+    { icon:"🐍", name:"Prone Cobra",               desc:"Lie face down, hands by hips. Lift chest off the floor and squeeze shoulder blades. Directly counteracts forward flexion from push-up work.",                dur:"40s" },
+    { icon:"🏃", name:"Low Lunge Stretch",         desc:"Step one foot forward into a lunge, drop your back knee to the floor and sink your hips forward. Targets the hip flexor that gets loaded during Reverse Lunges.", dur:"45s each" },
+    { icon:"🕊️", name:"Pigeon Pose",              desc:"Front shin parallel to the mat, lean your upper body forward over it. The deepest glute stretch you can do — essential after Frog Pumps. Both sides.",       dur:"45s each" },
+    { icon:"🪑", name:"Seated Hamstring Stretch",  desc:"Legs extended, hinge at your hips (not your waist) and reach toward your feet. A soft bend in the knees is fine. Targets the posterior chain.",               dur:"40s" },
+    { icon:"4️⃣", name:"Figure Four Stretch",      desc:"Lying on your back, cross one ankle over the opposite knee and draw that leg toward you. Hits the piriformis and outer glute — often the source of lunge soreness.", dur:"40s each" },
+    { icon:"🤗", name:"Lying Knee Hug",            desc:"Pull both knees into your chest and rock gently side to side. Decompresses the lumbar spine after all the core and back work.",                               dur:"40s" },
+    { icon:"🐈", name:"Cat-Cow",                   desc:"On all fours — inhale to drop belly (cow), exhale to round the spine (cat). 6 slow reps. Restores spinal mobility after core work.",                        dur:"6 reps" },
+    { icon:"🌿", name:"Spinal Twist",              desc:"Lying on your back, let bent knees fall to one side while arms open wide. Breathe out into the rotation on each exhale. Both sides.",                         dur:"45s each" },
   ]
 };
 
@@ -1045,7 +1087,7 @@ const LEVEL_NAMES = ["Foundation","Builder","Grinder","Warrior","Champion","Elit
 
 const BASE_DURATIONS = {
   "Frog Pumps":40, "Reverse Lunges":40, "Bird Dog":40,
-  "Incline Push-Ups":40, "Superman Hold":40, "Glute Bridge":40
+  "Incline Push-Ups":40, "Dead Bug":40, "Superman Hold":40, "Glute Bridge":40
 };
 
 function getProgression(){ return JSON.parse(localStorage.getItem("progression") || '{"workouts":0}'); }
