@@ -80,6 +80,93 @@ header {
   color: var(--accent2);
   background: rgba(255,79,106,.07);
 }
+.mode-pill.walk {
+  border-color: #a78bfa;
+  color: #a78bfa;
+  background: rgba(167,139,250,.07);
+}
+
+/* ── Walk mode card ── */
+.walk-card {
+  background: var(--surface);
+  border: 1px solid rgba(167,139,250,.25);
+  border-radius: 20px;
+  padding: 24px;
+  text-align: center;
+  display: none;
+}
+.walk-card.active { display: block; }
+.walk-title {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  letter-spacing: 3px;
+  color: #a78bfa;
+  margin-bottom: 6px;
+}
+.walk-subtitle {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 2px;
+  color: var(--muted);
+  text-transform: uppercase;
+  margin-bottom: 24px;
+}
+.walk-timer-display {
+  font-family: var(--font-display);
+  font-size: 5rem;
+  color: #a78bfa;
+  letter-spacing: 4px;
+  line-height: 1;
+  margin-bottom: 8px;
+  text-shadow: 0 0 40px rgba(167,139,250,.3);
+}
+.walk-steps {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--muted);
+  margin-bottom: 24px;
+  letter-spacing: 1px;
+}
+.walk-btn-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.btn-walk {
+  padding: 13px;
+  border: none;
+  border-radius: 10px;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all .18s;
+  font-weight: 500;
+}
+.btn-walk-start {
+  background: #a78bfa;
+  color: #080b10;
+  grid-column: 1 / -1;
+}
+.btn-walk-start:hover { filter: brightness(1.12); transform: translateY(-1px); }
+.btn-walk-secondary {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--muted);
+}
+.btn-walk-secondary:hover { border-color: #a78bfa; color: #a78bfa; }
+.walk-tip {
+  margin-top: 18px;
+  padding: 12px;
+  background: rgba(167,139,250,.06);
+  border: 1px solid rgba(167,139,250,.15);
+  border-radius: 10px;
+  font-size: 0.78rem;
+  color: var(--muted);
+  line-height: 1.5;
+}
+.walk-tip strong { color: #a78bfa; }
 
 /* ── Main layout ── */
 main {
@@ -273,6 +360,17 @@ main {
   top: 2px; right: 4px;
   font-size: .5rem;
   color: var(--accent);
+}
+.day.walked {
+  background: rgba(167,139,250,.12);
+  border-color: #a78bfa;
+  color: #a78bfa;
+}
+.day.walked::after {
+  content: '🚶';
+  position: absolute;
+  top: 1px; right: 2px;
+  font-size: .45rem;
 }
 
 /* ── Streak banner ── */
@@ -591,7 +689,7 @@ canvas#chart {
 
 <header>
   <div class="logo">FORGED</div>
-  <button class="mode-pill" id="modeBtn" onclick="toggleMode()">Normal Mode</button>
+  <button class="mode-pill" id="modeBtn" onclick="cycleMode()">Normal Mode</button>
 </header>
 
 <main>
@@ -628,6 +726,22 @@ canvas#chart {
       <button class="btn btn-primary" onclick="startWorkout()">START WORKOUT</button>
       <button class="btn btn-secondary" onclick="pauseWorkout()">PAUSE</button>
       <button class="btn btn-secondary" onclick="resetWorkout()">RESET</button>
+    </div>
+  </div>
+
+  <!-- Walk Mode Card -->
+  <div class="walk-card" id="walkCard">
+    <div class="walk-title">WALK MODE</div>
+    <div class="walk-subtitle">Low energy · Active recovery · Still counts</div>
+    <div class="walk-timer-display" id="walkTimer">00:00</div>
+    <div class="walk-steps" id="walkSteps">0 minutes walked</div>
+    <div class="walk-btn-row">
+      <button class="btn-walk btn-walk-start" id="walkStartBtn" onclick="toggleWalk()">START WALK</button>
+      <button class="btn-walk btn-walk-secondary" onclick="resetWalk()">RESET</button>
+      <button class="btn-walk btn-walk-secondary" onclick="logWalk()">LOG & DONE</button>
+    </div>
+    <div class="walk-tip">
+      <strong>Today's goal:</strong> Even 15–20 minutes counts as movement. Walk at a comfortable pace — no pressure. Your body is recovering, not failing.
     </div>
   </div>
 
@@ -815,12 +929,89 @@ function speak(text){
   try { speechSynthesis.cancel(); speechSynthesis.speak(new SpeechSynthesisUtterance(text)); } catch(e){}
 }
 
-function toggleMode(){
-  periodMode = !periodMode;
-  phases = buildPhases(); // rebuild so next Start uses correct exercises
+// mode: 'normal' | 'period' | 'walk'
+let currentMode = 'normal';
+
+function cycleMode(){
+  const modes = ['normal', 'period', 'walk'];
+  const labels = ['Normal Mode', 'Period Mode', 'Walk Mode'];
+  const classes = [null, 'period', 'walk'];
+  currentMode = modes[(modes.indexOf(currentMode) + 1) % modes.length];
+  const i = modes.indexOf(currentMode);
   const btn = document.getElementById("modeBtn");
-  btn.textContent = periodMode ? "Period Mode" : "Normal Mode";
-  btn.classList.toggle("period", periodMode);
+  btn.textContent = labels[i];
+  btn.className = 'mode-pill' + (classes[i] ? ' ' + classes[i] : '');
+  periodMode = currentMode === 'period';
+
+  // Show/hide player vs walk card
+  const playerCard = document.querySelector('.player-card');
+  const walkCard   = document.getElementById('walkCard');
+  if(currentMode === 'walk'){
+    playerCard.style.display = 'none';
+    walkCard.classList.add('active');
+    resetWalk();
+  } else {
+    playerCard.style.display = 'block';
+    walkCard.classList.remove('active');
+    resetWalk();
+    phases = buildPhases();
+  }
+}
+
+// ── Walk timer ──
+let walkSeconds = 0, walkInterval, walkRunning = false;
+
+function toggleWalk(){
+  const btn = document.getElementById("walkStartBtn");
+  if(walkRunning){
+    clearInterval(walkInterval);
+    walkRunning = false;
+    btn.textContent = "RESUME WALK";
+  } else {
+    walkRunning = true;
+    btn.textContent = "PAUSE WALK";
+    walkInterval = setInterval(()=>{
+      walkSeconds++;
+      updateWalkDisplay();
+    }, 1000);
+  }
+}
+
+function resetWalk(){
+  clearInterval(walkInterval);
+  walkRunning = false;
+  walkSeconds = 0;
+  updateWalkDisplay();
+  const btn = document.getElementById("walkStartBtn");
+  if(btn) btn.textContent = "START WALK";
+}
+
+function updateWalkDisplay(){
+  const m = Math.floor(walkSeconds / 60);
+  const s = walkSeconds % 60;
+  document.getElementById("walkTimer").textContent =
+    String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0');
+  document.getElementById("walkSteps").textContent =
+    m + ' minute' + (m !== 1 ? 's' : '') + ' walked';
+}
+
+function logWalk(){
+  if(walkSeconds < 60){
+    alert("Keep walking! Log after at least 1 minute.");
+    return;
+  }
+  clearInterval(walkInterval);
+  walkRunning = false;
+  const mins = Math.floor(walkSeconds / 60);
+  // Count as activity day on calendar
+  localStorage.setItem(new Date().toDateString(), "walk");
+  updateCalendar();
+  updateStreak();
+  const btn = document.getElementById("walkStartBtn");
+  btn.textContent = "✓ WALK LOGGED";
+  btn.style.background = "var(--accent)";
+  document.getElementById("walkSteps").textContent =
+    "✓ " + mins + " minutes logged — great work!";
 }
 
 function startWorkout(){
@@ -968,7 +1159,10 @@ function updateCalendar(){
   document.querySelectorAll(".day").forEach((d, i) => {
     const date = new Date();
     date.setDate(i + 1);
-    d.classList.toggle("done", !!localStorage.getItem(date.toDateString()));
+    const val = localStorage.getItem(date.toDateString());
+    d.classList.remove("done", "walked");
+    if(val === "done") d.classList.add("done");
+    if(val === "walk") d.classList.add("walked");
   });
 }
 
