@@ -33,7 +33,6 @@ body {
   overflow-x: hidden;
 }
 
-/* ── Noise grain overlay ── */
 body::before {
   content: '';
   position: fixed;
@@ -44,7 +43,6 @@ body::before {
   opacity: .5;
 }
 
-/* ── Header ── */
 header {
   display: flex;
   align-items: center;
@@ -86,7 +84,6 @@ header {
   background: rgba(167,139,250,.07);
 }
 
-/* ── Walk mode card ── */
 .walk-card {
   background: var(--surface);
   border: 1px solid rgba(167,139,250,.25);
@@ -168,14 +165,12 @@ header {
 }
 .walk-tip strong { color: #a78bfa; }
 
-/* ── Main layout ── */
 main {
   max-width: 480px;
   margin: 0 auto;
   padding: 0 16px;
 }
 
-/* ── Player card ── */
 .player-card {
   margin-top: 28px;
   background: var(--surface);
@@ -219,17 +214,12 @@ main {
   transition: all .3s ease;
 }
 
-/* Ring timer */
 .ring-wrap {
   display: flex;
   justify-content: center;
   margin: 28px 0 24px;
 }
-
-.ring-wrap svg {
-  transform: rotate(-90deg);
-}
-
+.ring-wrap svg { transform: rotate(-90deg); }
 .ring-bg { fill: none; stroke: var(--border); stroke-width: 4; }
 .ring-fg {
   fill: none;
@@ -238,7 +228,6 @@ main {
   stroke-linecap: round;
   transition: stroke-dashoffset .9s linear, stroke .3s;
 }
-
 .ring-center {
   position: absolute;
   top: 50%; left: 50%;
@@ -248,7 +237,6 @@ main {
   letter-spacing: 2px;
   color: var(--accent);
 }
-
 .ring-container {
   position: relative;
   display: inline-flex;
@@ -256,14 +244,12 @@ main {
   justify-content: center;
 }
 
-/* Buttons */
 .btn-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 10px;
   padding: 0 24px 24px;
 }
-
 .btn {
   padding: 13px;
   border: none;
@@ -276,7 +262,6 @@ main {
   transition: all .18s;
   font-weight: 500;
 }
-
 .btn-primary {
   background: var(--accent);
   color: #080b10;
@@ -284,7 +269,6 @@ main {
 }
 .btn-primary:hover { filter: brightness(1.12); transform: translateY(-1px); }
 .btn-primary:active { transform: translateY(0); }
-
 .btn-secondary {
   background: transparent;
   border: 1px solid var(--border);
@@ -292,7 +276,6 @@ main {
 }
 .btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
 
-/* ── Section title ── */
 .section-title {
   font-family: var(--font-display);
   font-size: 1.3rem;
@@ -306,14 +289,12 @@ main {
 }
 .section-title span { color: var(--accent); font-size: .9rem; }
 
-/* ── Calendar ── */
 .cal-wrap {
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: 20px;
   padding: 20px;
 }
-
 .day-labels {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
@@ -327,13 +308,11 @@ main {
   color: var(--muted);
   text-align: center;
 }
-
 .grid {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   gap: 5px;
 }
-
 .day {
   aspect-ratio: 1;
   background: rgba(255,255,255,.03);
@@ -373,7 +352,6 @@ main {
   font-size: .45rem;
 }
 
-/* ── Streak banner ── */
 .streak-banner {
   background: linear-gradient(135deg, rgba(0,229,160,.08), rgba(0,229,160,.02));
   border: 1px solid rgba(0,229,160,.2);
@@ -402,20 +380,17 @@ main {
   margin-top: 2px;
 }
 
-/* ── Progress ── */
 .progress-card {
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: 20px;
   padding: 22px;
 }
-
 .input-row {
   display: flex;
   gap: 10px;
   margin-bottom: 18px;
 }
-
 input[type=number] {
   flex: 1;
   padding: 11px 14px;
@@ -430,7 +405,6 @@ input[type=number] {
 }
 input[type=number]:focus { border-color: var(--accent); }
 input[type=number]::placeholder { color: var(--muted); }
-
 .btn-save {
   padding: 11px 20px;
   border: none;
@@ -453,7 +427,6 @@ canvas#chart {
   border-radius: 8px;
 }
 
-/* ── Animations ── */
 @keyframes fadeUp {
   from { opacity:0; transform:translateY(12px); }
   to   { opacity:1; transform:translateY(0); }
@@ -465,10 +438,8 @@ canvas#chart {
 .streak-banner { animation-delay: .15s; }
 .progress-card { animation-delay: .2s; }
 
-/* Rest exercise accent */
 #exercise.is-rest { color: var(--muted); }
 
-/* ── Phase badge ── */
 .phase-badge {
   display: inline-flex;
   align-items: center;
@@ -486,7 +457,6 @@ canvas#chart {
 .phase-workout  { background: rgba(0,229,160,.1);   border: 1px solid rgba(0,229,160,.3);  color: var(--accent); }
 .phase-cooldown { background: rgba(120,160,255,.1); border: 1px solid rgba(120,160,255,.3); color: #78a0ff; }
 
-/* ── Phase progress dots ── */
 .phase-track {
   display: flex;
   justify-content: center;
@@ -506,7 +476,6 @@ canvas#chart {
 .phase-dot.cooldown-dot.active { background: #78a0ff; }
 .phase-dot.cooldown-dot.done   { background: rgba(120,160,255,.35); }
 
-/* ── Exercise hint ── */
 .exercise-hint {
   font-family: var(--font-body);
   font-size: 0.78rem;
@@ -517,11 +486,10 @@ canvas#chart {
   font-weight: 300;
 }
 
-/* ring colour transitions */
 .ring-fg.warmup   { stroke: #ffb400 !important; }
 .ring-fg.cooldown { stroke: #78a0ff !important; }
 
-/* ── Stretch reference cards ── */
+/* ── Stretch reference ── */
 .stretch-section {
   background: var(--surface);
   border: 1px solid var(--border);
@@ -551,6 +519,13 @@ canvas#chart {
 .stretch-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
 .stretch-tab:hover:not(.active) { color: var(--text); }
 
+/* Split-specific tab accent colours */
+.stretch-tab.active.wu-lower  { color: #ffb400; border-bottom-color: #ffb400; }
+.stretch-tab.active.wu-upper  { color: #00b9ff; border-bottom-color: #00b9ff; }
+.stretch-tab.active.wu-core   { color: #ff4f6a; border-bottom-color: #ff4f6a; }
+.stretch-tab.active.wu-full   { color: var(--accent); border-bottom-color: var(--accent); }
+.stretch-tab.active.wu-period { color: #a78bfa; border-bottom-color: #a78bfa; }
+
 .stretch-list { padding: 16px; }
 .stretch-item {
   display: flex;
@@ -567,8 +542,12 @@ canvas#chart {
   font-size: 1.1rem;
   flex-shrink: 0;
 }
-.stretch-icon.wu { background: rgba(255,180,0,.1); }
-.stretch-icon.cd { background: rgba(120,160,255,.1); }
+.stretch-icon.wu        { background: rgba(255,180,0,.1); }
+.stretch-icon.wu-upper  { background: rgba(0,185,255,.1); }
+.stretch-icon.wu-core   { background: rgba(255,79,106,.1); }
+.stretch-icon.wu-period { background: rgba(167,139,250,.1); }
+.stretch-icon.cd        { background: rgba(120,160,255,.1); }
+
 .stretch-info { flex: 1; }
 .stretch-name {
   font-family: var(--font-display);
@@ -589,7 +568,111 @@ canvas#chart {
   flex-shrink: 0;
   margin-top: 2px;
 }
-/* ── Auto Progression ── */
+
+/* ── Split context badge in stretch panel ── */
+.stretch-context {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--border);
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  letter-spacing: 2px;
+  color: var(--muted);
+  text-transform: uppercase;
+}
+.stretch-context-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+}
+
+/* ── Split banner ── */
+.split-banner {
+  margin-top: 20px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 14px 18px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  cursor: pointer;
+  transition: border-color .2s;
+}
+.split-banner:hover { border-color: var(--accent); }
+.split-day-label {
+  font-family: var(--font-mono);
+  font-size: 0.55rem;
+  letter-spacing: 3px;
+  color: var(--muted);
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.split-day-name {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  letter-spacing: 2px;
+  flex: 1;
+}
+.split-day-desc {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  color: var(--muted);
+  letter-spacing: 1px;
+  flex: 1;
+  margin-top: 2px;
+}
+.split-banner.lower  { border-color: rgba(255,180,0,.3);   }
+.split-banner.lower  .split-day-name { color: #ffb400; }
+.split-banner.upper  { border-color: rgba(0,185,255,.3);   }
+.split-banner.upper  .split-day-name { color: #00b9ff; }
+.split-banner.core   { border-color: rgba(255,79,106,.3);  }
+.split-banner.core   .split-day-name { color: var(--accent2); }
+.split-banner.full   { border-color: rgba(0,229,160,.3);   }
+.split-banner.full   .split-day-name { color: var(--accent); }
+.split-banner.rest   { border-color: rgba(167,139,250,.3); }
+.split-banner.rest   .split-day-name { color: #a78bfa; }
+
+.split-selector {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+  margin-top: 8px;
+  display: none;
+}
+.split-selector.open { display: block; }
+.split-option {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 18px;
+  cursor: pointer;
+  border-bottom: 1px solid var(--border);
+  transition: background .15s;
+}
+.split-option:last-child { border-bottom: none; }
+.split-option:hover { background: rgba(255,255,255,.03); }
+.split-option-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.split-option-name {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  letter-spacing: 1px;
+  flex: 1;
+}
+.split-option-desc {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  color: var(--muted);
+  letter-spacing: 1px;
+}
+
+/* ── Progression ── */
 .prog-card {
   background: var(--surface);
   border: 1px solid var(--border);
@@ -603,11 +686,7 @@ canvas#chart {
   padding: 16px 20px 12px;
   border-bottom: 1px solid var(--border);
 }
-.prog-level {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
+.prog-level { display: flex; align-items: center; gap: 10px; }
 .prog-level-num {
   font-family: var(--font-display);
   font-size: 2rem;
@@ -694,21 +773,64 @@ canvas#chart {
 
 <main>
 
+  <!-- Today's Split Banner -->
+  <div class="split-banner full" id="splitBanner" onclick="toggleSplitSelector()">
+    <div>
+      <div class="split-day-label">TODAY'S WORKOUT ▾</div>
+      <div class="split-day-name" id="splitDayName">Full Body</div>
+      <div class="split-day-desc" id="splitDayDesc">All muscle groups · Warm-up included</div>
+    </div>
+  </div>
+  <div class="split-selector" id="splitSelector">
+    <div class="split-option" onclick="selectSplit('lower')">
+      <div class="split-option-dot" style="background:#ffb400"></div>
+      <div>
+        <div class="split-option-name" style="color:#ffb400">Lower Body</div>
+        <div class="split-option-desc">Glutes · Quads · Hamstrings · Calves</div>
+      </div>
+    </div>
+    <div class="split-option" onclick="selectSplit('upper')">
+      <div class="split-option-dot" style="background:#00b9ff"></div>
+      <div>
+        <div class="split-option-name" style="color:#00b9ff">Upper Body</div>
+        <div class="split-option-desc">Chest · Shoulders · Triceps · Back</div>
+      </div>
+    </div>
+    <div class="split-option" onclick="selectSplit('core')">
+      <div class="split-option-dot" style="background:#ff4f6a"></div>
+      <div>
+        <div class="split-option-name" style="color:#ff4f6a">Core</div>
+        <div class="split-option-desc">Deep core · Lower back · Stability</div>
+      </div>
+    </div>
+    <div class="split-option" onclick="selectSplit('full')">
+      <div class="split-option-dot" style="background:#00e5a0"></div>
+      <div>
+        <div class="split-option-name" style="color:#00e5a0">Full Body</div>
+        <div class="split-option-desc">All muscle groups · Warm-up included</div>
+      </div>
+    </div>
+    <div class="split-option" onclick="selectSplit('period')">
+      <div class="split-option-dot" style="background:#ff4f6a"></div>
+      <div>
+        <div class="split-option-name" style="color:#ff4f6a">Period Mode</div>
+        <div class="split-option-desc">Gentle · Low impact · Recovery focused</div>
+      </div>
+    </div>
+  </div>
+
   <!-- Player -->
   <div class="player-card">
     <div class="player-inner">
-      <!-- Phase dots -->
       <div class="phase-track">
         <div class="phase-dot warmup-dot"   id="dot0"></div>
         <div class="phase-dot"              id="dot1"></div>
         <div class="phase-dot cooldown-dot" id="dot2"></div>
       </div>
-
       <div id="phaseBadge" class="phase-badge phase-workout">● Workout</div>
       <div class="exercise-label">Current Exercise</div>
       <div id="exercise">Ready</div>
       <div class="exercise-hint" id="exerciseHint"></div>
-
       <div class="ring-wrap">
         <div class="ring-container">
           <svg width="120" height="120" viewBox="0 0 120 120">
@@ -721,7 +843,6 @@ canvas#chart {
         </div>
       </div>
     </div>
-
     <div class="btn-row">
       <button class="btn btn-primary" onclick="startWorkout()">START WORKOUT</button>
       <button class="btn btn-secondary" onclick="pauseWorkout()">PAUSE</button>
@@ -791,12 +912,16 @@ canvas#chart {
     <button class="prog-reset-btn" onclick="resetProgression()">Reset Progression</button>
   </div>
 
-  <!-- Stretch Reference -->
-  <div class="section-title">Stretches <span>REFERENCE</span></div>
+  <!-- Stretch Reference — dynamically reflects active split -->
+  <div class="section-title">Stretches <span id="stretchSplitLabel">FULL BODY</span></div>
   <div class="stretch-section">
+    <div class="stretch-context" id="stretchContext">
+      <div class="stretch-context-dot" id="stretchContextDot" style="background:var(--accent)"></div>
+      <span id="stretchContextLabel">Full Body warm-up & cool-down stretches</span>
+    </div>
     <div class="stretch-tabs">
-      <button class="stretch-tab active" onclick="showStretchTab('warmup', this)">Warm-Up</button>
-      <button class="stretch-tab" onclick="showStretchTab('cooldown', this)">Cool-Down</button>
+      <button class="stretch-tab active" id="tabWarmup" onclick="showStretchTab('warmup', this)">Warm-Up</button>
+      <button class="stretch-tab" id="tabCooldown" onclick="showStretchTab('cooldown', this)">Cool-Down</button>
     </div>
     <div class="stretch-list" id="stretchList"></div>
   </div>
@@ -814,136 +939,413 @@ canvas#chart {
 </main>
 
 <script>
-let periodMode = false;
 const CIRCUMFERENCE = 2 * Math.PI * 52;
 
-// ── Exercise data with hints ──
-const warmupExercises = [
-  // ── Lower body activation ──
-  { name: "Hip Circles",              hint: "Hands on hips, draw big slow circles both ways",    dur: 30, type: "stretch" },
+// ────────────────────────────────────────────────
+// WARM-UP SEQUENCES — split-specific
+// ────────────────────────────────────────────────
+
+const warmupLower = [
+  { name: "Hip Circles",              hint: "Hands on hips, big slow circles both ways",         dur: 30, type: "stretch" },
   { name: "Rest",                     hint: "",                                                    dur: 10, type: "rest"    },
   { name: "Leg Swings",               hint: "Hold wall, swing each leg fwd/back 10x per side",   dur: 30, type: "stretch" },
   { name: "Rest",                     hint: "",                                                    dur: 10, type: "rest"    },
-  { name: "Glute Bridge Activation",  hint: "Slow 10 reps — squeeze hard at the top each time",  dur: 30, type: "stretch" },
+  { name: "Glute Bridge Activation",  hint: "10 slow reps, squeeze hard at the top",             dur: 30, type: "stretch" },
   { name: "Rest",                     hint: "",                                                    dur: 10, type: "rest"    },
-  { name: "World's Greatest Stretch", hint: "Lunge, drop elbow to floor, rotate arm to sky",     dur: 40, type: "stretch" },
+  { name: "World's Greatest Stretch", hint: "Lunge, elbow to floor, rotate arm to sky",           dur: 40, type: "stretch" },
   { name: "Rest",                     hint: "",                                                    dur: 10, type: "rest"    },
-  // ── Upper body activation ──
+  { name: "Ankle Circles",            hint: "Both feet, slow full circles both directions",        dur: 30, type: "stretch" },
+  { name: "Rest",                     hint: "",                                                    dur: 10, type: "rest"    },
+  { name: "Lateral Hip Sways",        hint: "Feet wide, shift weight side to side slowly",        dur: 30, type: "stretch" },
+  { name: "Rest",                     hint: "",                                                    dur: 10, type: "rest"    },
+  { name: "Bodyweight Squat",         hint: "Slow 10 reps, sit back, chest tall",                dur: 30, type: "stretch" },
+];
+
+const warmupUpper = [
+  { name: "Shoulder Rolls",           hint: "Big backward then forward circles",                  dur: 30, type: "stretch" },
+  { name: "Rest",                     hint: "",                                                    dur: 10, type: "rest"    },
+  { name: "Chest Opener",             hint: "Clasp hands behind back, lift and squeeze",           dur: 30, type: "stretch" },
+  { name: "Rest",                     hint: "",                                                    dur: 10, type: "rest"    },
+  { name: "Wall Angels",              hint: "Back flat on wall, slide arms up & down slowly",     dur: 30, type: "stretch" },
+  { name: "Rest",                     hint: "",                                                    dur: 10, type: "rest"    },
+  { name: "Wrist Circles",            hint: "Both directions — prep wrists for push load",        dur: 30, type: "stretch" },
+  { name: "Rest",                     hint: "",                                                    dur: 10, type: "rest"    },
+  { name: "Scapular Squeezes",        hint: "Arms out, squeeze shoulder blades together 10x",     dur: 30, type: "stretch" },
+  { name: "Rest",                     hint: "",                                                    dur: 10, type: "rest"    },
+  { name: "Arm Cross Stretch",        hint: "Pull each arm across chest, hold 10s per side",      dur: 30, type: "stretch" },
+  { name: "Rest",                     hint: "",                                                    dur: 10, type: "rest"    },
+  { name: "Neck Rolls",               hint: "Slow half-circles ear to ear, not full circles",     dur: 30, type: "stretch" },
+];
+
+const warmupCore = [
+  { name: "Cat-Cow",                  hint: "Inhale drop belly, exhale round spine — 8 reps",    dur: 40, type: "stretch" },
+  { name: "Rest",                     hint: "",                                                    dur: 10, type: "rest"    },
+  { name: "Hip Circles",              hint: "Hands on hips, big slow circles both ways",          dur: 30, type: "stretch" },
+  { name: "Rest",                     hint: "",                                                    dur: 10, type: "rest"    },
+  { name: "Glute Bridge Activation",  hint: "10 slow reps — wake up the posterior chain",         dur: 30, type: "stretch" },
+  { name: "Rest",                     hint: "",                                                    dur: 10, type: "rest"    },
+  { name: "Dead Bug Hold",            hint: "Arms & legs extended, hold lower back down 10s",     dur: 30, type: "stretch" },
+  { name: "Rest",                     hint: "",                                                    dur: 10, type: "rest"    },
+  { name: "Child's Pose",             hint: "Arms forward, breathe into lower back",              dur: 30, type: "stretch" },
+  { name: "Rest",                     hint: "",                                                    dur: 10, type: "rest"    },
+  { name: "World's Greatest Stretch", hint: "Lunge, elbow to floor, rotate arm to sky",           dur: 40, type: "stretch" },
+  { name: "Rest",                     hint: "",                                                    dur: 10, type: "rest"    },
+  { name: "Spinal Rotation",          hint: "Seated, rotate torso slowly side to side",           dur: 30, type: "stretch" },
+];
+
+const warmupFull = [
+  { name: "Hip Circles",              hint: "Hands on hips, big slow circles both ways",          dur: 30, type: "stretch" },
+  { name: "Rest",                     hint: "",                                                    dur: 10, type: "rest"    },
+  { name: "Leg Swings",               hint: "Hold wall, swing each leg fwd/back 10x per side",   dur: 30, type: "stretch" },
+  { name: "Rest",                     hint: "",                                                    dur: 10, type: "rest"    },
+  { name: "Glute Bridge Activation",  hint: "10 slow reps, squeeze hard at the top",             dur: 30, type: "stretch" },
+  { name: "Rest",                     hint: "",                                                    dur: 10, type: "rest"    },
+  { name: "World's Greatest Stretch", hint: "Lunge, elbow to floor, rotate arm to sky",           dur: 40, type: "stretch" },
+  { name: "Rest",                     hint: "",                                                    dur: 10, type: "rest"    },
   { name: "Shoulder Rolls",           hint: "Big backward rolls, open the chest",                 dur: 30, type: "stretch" },
   { name: "Rest",                     hint: "",                                                    dur: 10, type: "rest"    },
   { name: "Chest Opener",             hint: "Clasp hands behind back, lift and squeeze",          dur: 30, type: "stretch" },
   { name: "Rest",                     hint: "",                                                    dur: 10, type: "rest"    },
-  { name: "Wall Angels",              hint: "Back flat on wall, slide arms up & down slowly",    dur: 30, type: "stretch" },
+  { name: "Wall Angels",              hint: "Back flat on wall, slide arms up & down slowly",     dur: 30, type: "stretch" },
   { name: "Rest",                     hint: "",                                                    dur: 10, type: "rest"    },
-  { name: "Wrist Circles",            hint: "Both directions — prep wrists for push-up load",    dur: 30, type: "stretch" },
+  { name: "Wrist Circles",            hint: "Both directions — prep wrists for push load",        dur: 30, type: "stretch" },
   { name: "Rest",                     hint: "",                                                    dur: 10, type: "rest"    },
-  { name: "Scapular Squeezes",        hint: "Arms out, squeeze shoulder blades together 10x",    dur: 30, type: "stretch" },
+  { name: "Scapular Squeezes",        hint: "Arms out, squeeze shoulder blades together 10x",     dur: 30, type: "stretch" },
 ];
 
-const mainExercises = [
-  { name: "Frog Pumps",         hint: "Soles together, thrust hips up",   dur: 40, type: "exercise" },
-  { name: "Rest",               hint: "",                                  dur: 20, type: "rest"     },
-  { name: "Reverse Lunges",     hint: "Step back, knee hovers floor",     dur: 40, type: "exercise" },
-  { name: "Rest",               hint: "",                                  dur: 20, type: "rest"     },
-  { name: "Bird Dog",           hint: "Opposite arm & leg, hold 2s",      dur: 40, type: "exercise" },
-  { name: "Rest",               hint: "",                                  dur: 20, type: "rest"     },
-  { name: "Incline Push-Ups",   hint: "Hands elevated, chest to surface", dur: 40, type: "exercise" },
-  { name: "Rest",               hint: "",                                  dur: 20, type: "rest"     },
-  { name: "Dead Bug",           hint: "Lower opposite arm & leg, exhale", dur: 40, type: "exercise" },
-  { name: "Rest",               hint: "",                                  dur: 20, type: "rest"     },
-  { name: "Superman Hold",      hint: "Lift arms & legs off floor",       dur: 40, type: "exercise" },
+const warmupPeriod = [
+  { name: "Neck Rolls",               hint: "Gentle, slow half-circles ear to ear",               dur: 30, type: "stretch" },
+  { name: "Shoulder Rolls",           hint: "Easy backward & forward circles",                    dur: 30, type: "stretch" },
+  { name: "Hip Sways",                hint: "Side to side, very gentle",                          dur: 30, type: "stretch" },
 ];
 
-const cooldownExercises = [
-  // ── Upper body ──
-  { name: "Child's Pose",             hint: "Arms forward, breathe into upper back & shoulders", dur: 45, type: "stretch" },
+// ────────────────────────────────────────────────
+// COOL-DOWN SEQUENCES — split-specific
+// ────────────────────────────────────────────────
+
+const cooldownLower = [
+  { name: "Low Lunge Stretch",        hint: "Back knee down, sink hips forward — both sides",    dur: 45, type: "stretch" },
+  { name: "Rest",                     hint: "",                                                    dur: 10, type: "rest"    },
+  { name: "Pigeon Pose",              hint: "Front shin parallel to mat — both sides",            dur: 45, type: "stretch" },
+  { name: "Rest",                     hint: "",                                                    dur: 10, type: "rest"    },
+  { name: "Figure Four Stretch",      hint: "Lying back, ankle on knee, draw leg in",             dur: 40, type: "stretch" },
+  { name: "Rest",                     hint: "",                                                    dur: 10, type: "rest"    },
+  { name: "Seated Hamstring Stretch", hint: "Legs extended, hinge at hips, soft knees ok",        dur: 40, type: "stretch" },
+  { name: "Rest",                     hint: "",                                                    dur: 10, type: "rest"    },
+  { name: "Standing Calf Stretch",    hint: "Heel off edge or step, drop slowly — both sides",   dur: 40, type: "stretch" },
+  { name: "Rest",                     hint: "",                                                    dur: 10, type: "rest"    },
+  { name: "Lying Knee Hug",           hint: "Both knees to chest, rock gently side to side",     dur: 40, type: "stretch" },
+  { name: "Rest",                     hint: "",                                                    dur: 10, type: "rest"    },
+  { name: "Spinal Twist",             hint: "Knees fall to one side, arms wide — both sides",    dur: 45, type: "stretch" },
+];
+
+const cooldownUpper = [
+  { name: "Chest Doorway Stretch",    hint: "Arm at 90° on doorframe, lean body forward gently", dur: 40, type: "stretch" },
+  { name: "Rest",                     hint: "",                                                    dur: 10, type: "rest"    },
+  { name: "Tricep Overhead Stretch",  hint: "Elbow behind head, other hand presses it down",      dur: 40, type: "stretch" },
+  { name: "Rest",                     hint: "",                                                    dur: 10, type: "rest"    },
+  { name: "Cross-Body Shoulder",      hint: "Pull arm across chest, keep shoulder blade down",    dur: 40, type: "stretch" },
+  { name: "Rest",                     hint: "",                                                    dur: 10, type: "rest"    },
+  { name: "Thread the Needle",        hint: "On all fours, slide arm under body — both sides",    dur: 40, type: "stretch" },
+  { name: "Rest",                     hint: "",                                                    dur: 10, type: "rest"    },
+  { name: "Prone Cobra",              hint: "Face down, lift chest, squeeze shoulder blades",     dur: 40, type: "stretch" },
+  { name: "Rest",                     hint: "",                                                    dur: 10, type: "rest"    },
+  { name: "Child's Pose",             hint: "Arms forward, breathe into upper back",              dur: 45, type: "stretch" },
+  { name: "Rest",                     hint: "",                                                    dur: 10, type: "rest"    },
+  { name: "Neck Stretch",             hint: "Ear toward shoulder, hold 20s — both sides",         dur: 40, type: "stretch" },
+];
+
+const cooldownCore = [
+  { name: "Child's Pose",             hint: "Arms forward, breathe into lower back",              dur: 45, type: "stretch" },
+  { name: "Rest",                     hint: "",                                                    dur: 10, type: "rest"    },
+  { name: "Cat-Cow",                  hint: "Inhale drop belly, exhale round spine — 6 reps",    dur: 40, type: "stretch" },
+  { name: "Rest",                     hint: "",                                                    dur: 10, type: "rest"    },
+  { name: "Spinal Twist",             hint: "Knees fall to one side, arms wide — both sides",    dur: 45, type: "stretch" },
+  { name: "Rest",                     hint: "",                                                    dur: 10, type: "rest"    },
+  { name: "Lying Knee Hug",           hint: "Both knees to chest, rock gently side to side",     dur: 40, type: "stretch" },
+  { name: "Rest",                     hint: "",                                                    dur: 10, type: "rest"    },
+  { name: "Low Lunge Stretch",        hint: "Back knee down, sink hips — releases hip flexors",   dur: 40, type: "stretch" },
+  { name: "Rest",                     hint: "",                                                    dur: 10, type: "rest"    },
+  { name: "Prone Cobra",              hint: "Face down, lift chest — counteracts core flexion",   dur: 40, type: "stretch" },
+  { name: "Rest",                     hint: "",                                                    dur: 10, type: "rest"    },
+  { name: "Supine Figure Four",       hint: "Lying back, ankle on knee — releases piriformis",    dur: 40, type: "stretch" },
+];
+
+const cooldownFull = [
+  { name: "Child's Pose",             hint: "Arms forward, breathe into upper back & shoulders",  dur: 45, type: "stretch" },
   { name: "Rest",                     hint: "",                                                    dur: 10, type: "rest"    },
   { name: "Chest Doorway Stretch",    hint: "Arm at 90° on doorframe, lean body forward gently",  dur: 40, type: "stretch" },
   { name: "Rest",                     hint: "",                                                    dur: 10, type: "rest"    },
   { name: "Thread the Needle",        hint: "On all fours, slide arm under body — both sides",    dur: 40, type: "stretch" },
   { name: "Rest",                     hint: "",                                                    dur: 10, type: "rest"    },
-  // ── Lower body & hips ──
   { name: "Low Lunge Stretch",        hint: "Back knee down, sink hips forward — both sides",     dur: 45, type: "stretch" },
   { name: "Rest",                     hint: "",                                                    dur: 10, type: "rest"    },
-  { name: "Pigeon Pose",              hint: "Front shin parallel to mat, lean forward — both sides", dur: 45, type: "stretch" },
+  { name: "Pigeon Pose",              hint: "Front shin parallel to mat — both sides",            dur: 45, type: "stretch" },
   { name: "Rest",                     hint: "",                                                    dur: 10, type: "rest"    },
   { name: "Figure Four Stretch",      hint: "Lying back, ankle on knee, draw leg toward you",     dur: 40, type: "stretch" },
   { name: "Rest",                     hint: "",                                                    dur: 10, type: "rest"    },
-  // ── Core decompression ──
-  { name: "Lying Knee Hug",           hint: "Both knees to chest, rock gently side to side",      dur: 40, type: "stretch" },
+  { name: "Lying Knee Hug",           hint: "Both knees to chest, rock gently side to side",     dur: 40, type: "stretch" },
   { name: "Rest",                     hint: "",                                                    dur: 10, type: "rest"    },
-  { name: "Cat-Cow",                  hint: "Inhale drop belly, exhale round spine — 6 reps",     dur: 40, type: "stretch" },
+  { name: "Cat-Cow",                  hint: "Inhale drop belly, exhale round spine — 6 reps",    dur: 40, type: "stretch" },
   { name: "Rest",                     hint: "",                                                    dur: 10, type: "rest"    },
-  { name: "Spinal Twist",             hint: "Knees fall to one side, arms wide — both sides",     dur: 45, type: "stretch" },
+  { name: "Spinal Twist",             hint: "Knees fall to one side, arms wide — both sides",    dur: 45, type: "stretch" },
 ];
 
-const periodWarmup    = [
-  { name: "Neck Rolls",       hint: "Gentle, slow circles",              dur: 30, type: "stretch" },
-  { name: "Shoulder Rolls",   hint: "Easy, backward & forward",          dur: 30, type: "stretch" },
-  { name: "Hip Sways",        hint: "Side to side, gentle",              dur: 30, type: "stretch" },
-];
-const periodMain      = [
-  { name: "Glute Bridge",     hint: "Feet flat, squeeze at top",         dur: 40, type: "exercise" },
-  { name: "Rest",             hint: "",                                   dur: 20, type: "rest"     },
-  { name: "Bird Dog",         hint: "Slow and controlled",               dur: 40, type: "exercise" },
-  { name: "Rest",             hint: "",                                   dur: 20, type: "rest"     },
-  { name: "Stretch",          hint: "Full body reach and release",       dur: 40, type: "stretch"  },
-];
-const periodCooldown  = [
-  { name: "Child's Pose",     hint: "Hold and breathe, 3 deep breaths",  dur: 40, type: "stretch" },
-  { name: "Supine Twist",     hint: "Both sides, be very gentle",        dur: 40, type: "stretch" },
-  { name: "Legs Up Wall",     hint: "Hips close to wall, rest here",     dur: 60, type: "stretch" },
+const cooldownPeriod = [
+  { name: "Child's Pose",             hint: "Hold and breathe, 3 deep breaths",                  dur: 40, type: "stretch" },
+  { name: "Supine Twist",             hint: "Both sides, be very gentle",                         dur: 40, type: "stretch" },
+  { name: "Legs Up Wall",             hint: "Hips close to wall, rest here",                      dur: 60, type: "stretch" },
 ];
 
-// Stretch reference data
-const stretchData = {
-  warmup: [
-    { icon:"🌀", name:"Hip Circles",              desc:"Hands on hips, draw big slow circles in both directions. Lubricates the hip joint and wakes up the glutes before Frog Pumps and Lunges.",                    dur:"30s" },
-    { icon:"🦵", name:"Leg Swings",               desc:"Hold a wall for balance. Swing each leg forward and back 10x, then across the body 10x. Opens the hip flexors and hamstrings dynamically.",                  dur:"30s" },
-    { icon:"🍑", name:"Glute Bridge Activation",  desc:"10 slow reps, squeezing hard at the top for 2 seconds each. Pre-activates the glutes so they fire during Frog Pumps instead of your lower back.",            dur:"30s" },
-    { icon:"🌍", name:"World's Greatest Stretch", desc:"Step into a lunge, drop your back knee, place same-side elbow to the floor, then rotate that arm up to the ceiling. Opens hips, hip flexors and thoracic spine in one move.", dur:"40s each" },
-    { icon:"🔁", name:"Shoulder Rolls",           desc:"Roll both shoulders backward in big circles to open the chest and wake up the rotator cuff before push-up load.",                                             dur:"30s" },
-    { icon:"💪", name:"Chest Opener",             desc:"Clasp hands behind your lower back, straighten arms and gently lift while squeezing shoulder blades together. Counters forward posture.",                     dur:"30s" },
-    { icon:"🧱", name:"Wall Angels",              desc:"Stand with full back against a wall, arms at 90°. Slowly slide them overhead and back down without losing wall contact. Activates the rotator cuff.",         dur:"30s" },
-    { icon:"🙌", name:"Wrist Circles",            desc:"Extend arms and rotate wrists in both directions. Essential prep for the wrist joint load from Incline Push-Ups.",                                            dur:"30s" },
-    { icon:"🦅", name:"Scapular Squeezes",        desc:"Arms out at shoulder height, squeeze shoulder blades together firmly 10 times. Activates mid-traps and rhomboids for shoulder stability.",                    dur:"30s" },
-  ],
-  cooldown: [
-    { icon:"🧘", name:"Child's Pose",              desc:"Kneel, sink hips to heels, arms reach forward. Breathe into the upper back — you should feel the stretch between your shoulder blades.",                      dur:"45s" },
-    { icon:"🚪", name:"Chest Doorway Stretch",     desc:"Place forearm on a doorframe at 90°, gently lean your body forward. The #1 stretch for pectoral tightness after push-up work.",                              dur:"40s each" },
-    { icon:"🪡", name:"Thread the Needle",         desc:"On all fours, slide one arm under your body along the floor until your shoulder touches down. Deep thoracic rotation — do both sides.",                      dur:"40s each" },
-    { icon:"🏃", name:"Low Lunge Stretch",         desc:"Step one foot forward into a lunge, drop your back knee to the floor and sink your hips forward. Targets the hip flexor loaded during Reverse Lunges.",      dur:"45s each" },
-    { icon:"🕊️", name:"Pigeon Pose",              desc:"Front shin parallel to the mat, lean your upper body forward over it. The deepest glute stretch you can do — essential after Frog Pumps. Both sides.",       dur:"45s each" },
-    { icon:"4️⃣", name:"Figure Four Stretch",      desc:"Lying on your back, cross one ankle over the opposite knee and draw that leg toward you. Hits the piriformis and outer glute — often the source of lunge soreness.", dur:"40s each" },
-    { icon:"🤗", name:"Lying Knee Hug",            desc:"Pull both knees into your chest and rock gently side to side. Decompresses the lumbar spine after all the core and back work.",                               dur:"40s" },
-    { icon:"🐈", name:"Cat-Cow",                   desc:"On all fours — inhale to drop belly (cow), exhale to round the spine (cat). 6 slow reps. Restores spinal mobility after core work.",                        dur:"6 reps" },
-    { icon:"🌿", name:"Spinal Twist",              desc:"Lying on your back, let bent knees fall to one side while arms open wide. Breathe out into the rotation on each exhale. Both sides.",                         dur:"45s each" },
-  ]
+// ────────────────────────────────────────────────
+// MAIN EXERCISE SEQUENCES
+// ────────────────────────────────────────────────
+
+const lowerExercises = [
+  { name: "Sumo Squats",        hint: "Wide stance, toes out, sit back into hips",       dur: 40, type: "exercise" },
+  { name: "Rest",               hint: "",                                                  dur: 20, type: "rest"     },
+  { name: "Reverse Lunges",     hint: "Step back, knee hovers floor, push through heel", dur: 40, type: "exercise" },
+  { name: "Rest",               hint: "",                                                  dur: 20, type: "rest"     },
+  { name: "Glute Bridge",       hint: "Feet flat, drive hips up, squeeze at top",        dur: 40, type: "exercise" },
+  { name: "Rest",               hint: "",                                                  dur: 20, type: "rest"     },
+  { name: "Romanian Deadlift",  hint: "Hinge at hips, soft knees, feel hamstring load",  dur: 40, type: "exercise" },
+  { name: "Rest",               hint: "",                                                  dur: 20, type: "rest"     },
+  { name: "Curtsy Lunges",      hint: "Step back and across, knee toward floor",         dur: 40, type: "exercise" },
+  { name: "Rest",               hint: "",                                                  dur: 20, type: "rest"     },
+  { name: "Frog Pumps",         hint: "Soles together, thrust hips up, squeeze glutes",  dur: 40, type: "exercise" },
+  { name: "Rest",               hint: "",                                                  dur: 20, type: "rest"     },
+  { name: "Calf Raises",        hint: "Slow up, pause, slow down — feel the burn",       dur: 40, type: "exercise" },
+];
+
+const upperExercises = [
+  { name: "Incline Push-Ups",   hint: "Hands elevated, chest to surface, elbows 45°",   dur: 40, type: "exercise" },
+  { name: "Rest",               hint: "",                                                  dur: 20, type: "rest"     },
+  { name: "Pike Push-Ups",      hint: "Hips high, lower head toward floor, press up",    dur: 40, type: "exercise" },
+  { name: "Rest",               hint: "",                                                  dur: 20, type: "rest"     },
+  { name: "Tricep Dips",        hint: "Hands on chair/bed, elbows back, dip and press",  dur: 40, type: "exercise" },
+  { name: "Rest",               hint: "",                                                  dur: 20, type: "rest"     },
+  { name: "Scapular Push-Ups",  hint: "Plank position, squeeze and spread shoulder blades", dur: 40, type: "exercise" },
+  { name: "Rest",               hint: "",                                                  dur: 20, type: "rest"     },
+  { name: "Shoulder Taps",      hint: "Plank, tap each shoulder alternately, stay stable", dur: 40, type: "exercise" },
+  { name: "Rest",               hint: "",                                                  dur: 20, type: "rest"     },
+  { name: "Prone Y Raise",      hint: "Face down, raise arms in Y shape, squeeze back",  dur: 40, type: "exercise" },
+  { name: "Rest",               hint: "",                                                  dur: 20, type: "rest"     },
+  { name: "Diamond Push-Ups",   hint: "Hands form diamond under chest, elbows back",     dur: 40, type: "exercise" },
+];
+
+const coreExercises = [
+  { name: "Dead Bug",           hint: "Lower opposite arm & leg, exhale fully, no arch", dur: 40, type: "exercise" },
+  { name: "Rest",               hint: "",                                                  dur: 20, type: "rest"     },
+  { name: "Bird Dog",           hint: "Brace core, extend opposite arm & leg slowly",    dur: 40, type: "exercise" },
+  { name: "Rest",               hint: "",                                                  dur: 20, type: "rest"     },
+  { name: "Hollow Body Hold",   hint: "Lower back pressed down, arms and legs extended", dur: 40, type: "exercise" },
+  { name: "Rest",               hint: "",                                                  dur: 20, type: "rest"     },
+  { name: "Plank",              hint: "Forearms down, body straight, squeeze everything", dur: 40, type: "exercise" },
+  { name: "Rest",               hint: "",                                                  dur: 20, type: "rest"     },
+  { name: "Toe Taps",           hint: "Legs at 90°, lower one heel to tap floor, switch", dur: 40, type: "exercise" },
+  { name: "Rest",               hint: "",                                                  dur: 20, type: "rest"     },
+  { name: "Reverse Crunches",   hint: "Curl hips up toward chest, control the lower",    dur: 40, type: "exercise" },
+  { name: "Rest",               hint: "",                                                  dur: 20, type: "rest"     },
+  { name: "Superman Hold",      hint: "Lift arms & legs off floor, squeeze glutes",      dur: 40, type: "exercise" },
+];
+
+const fullExercises = [
+  { name: "Frog Pumps",         hint: "Soles together, thrust hips up",                  dur: 40, type: "exercise" },
+  { name: "Rest",               hint: "",                                                  dur: 20, type: "rest"     },
+  { name: "Incline Push-Ups",   hint: "Hands elevated, chest to surface",                dur: 40, type: "exercise" },
+  { name: "Rest",               hint: "",                                                  dur: 20, type: "rest"     },
+  { name: "Dead Bug",           hint: "Lower opposite arm & leg, exhale",                dur: 40, type: "exercise" },
+  { name: "Rest",               hint: "",                                                  dur: 20, type: "rest"     },
+  { name: "Reverse Lunges",     hint: "Step back, knee hovers floor",                    dur: 40, type: "exercise" },
+  { name: "Rest",               hint: "",                                                  dur: 20, type: "rest"     },
+  { name: "Bird Dog",           hint: "Opposite arm & leg, hold 2s",                     dur: 40, type: "exercise" },
+  { name: "Rest",               hint: "",                                                  dur: 20, type: "rest"     },
+  { name: "Tricep Dips",        hint: "Hands on chair/bed, elbows back",                 dur: 40, type: "exercise" },
+  { name: "Rest",               hint: "",                                                  dur: 20, type: "rest"     },
+  { name: "Superman Hold",      hint: "Lift arms & legs off floor",                      dur: 40, type: "exercise" },
+];
+
+const periodMain = [
+  { name: "Glute Bridge",       hint: "Feet flat, squeeze at top",                       dur: 40, type: "exercise" },
+  { name: "Rest",               hint: "",                                                  dur: 20, type: "rest"     },
+  { name: "Bird Dog",           hint: "Slow and controlled",                              dur: 40, type: "exercise" },
+  { name: "Rest",               hint: "",                                                  dur: 20, type: "rest"     },
+  { name: "Gentle Stretch",     hint: "Full body reach and release",                     dur: 40, type: "stretch"  },
+];
+
+// ────────────────────────────────────────────────
+// STRETCH REFERENCE DATA — split-specific with targeted rationale
+// ────────────────────────────────────────────────
+
+const stretchDataBySplit = {
+  lower: {
+    color: "#ffb400",
+    label: "Lower Body",
+    iconClass: "wu",
+    warmup: [
+      { icon:"🌀", name:"Hip Circles",              desc:"Lubricates the hip joint and wakes up the glutes before squat and lunge patterns.",                                                     dur:"30s" },
+      { icon:"🦵", name:"Leg Swings",               desc:"Swing each leg forward/back and across body 10x. Opens hip flexors and hamstrings dynamically before loading them.",                   dur:"30s" },
+      { icon:"🍑", name:"Glute Bridge Activation",  desc:"10 slow reps with a 2s squeeze at the top. Pre-activates the glutes so they fire during Frog Pumps and Sumo Squats.",                  dur:"30s" },
+      { icon:"🌍", name:"World's Greatest Stretch", desc:"Lunge, drop same-side elbow to floor, rotate arm to ceiling. Opens hips, hip flexors and thoracic spine in one move.",                  dur:"40s each" },
+      { icon:"🔄", name:"Ankle Circles",            desc:"Full circles both directions. Reduces ankle stiffness before calf raises and squat patterns.",                                          dur:"30s" },
+      { icon:"↔️", name:"Lateral Hip Sways",        desc:"Feet wide, shift weight side to side slowly. Warms the adductors and hip abductors used in sumo squats and curtsy lunges.",            dur:"30s" },
+      { icon:"🏋️", name:"Bodyweight Squat",         desc:"10 slow practice reps — chest tall, sit back, drive through heels. Sets the movement pattern before load.",                            dur:"30s" },
+    ],
+    cooldown: [
+      { icon:"🏃", name:"Low Lunge Stretch",         desc:"Back knee on floor, sink hips forward. Directly targets the hip flexor stressed during Reverse Lunges and Curtsy Lunges.",             dur:"45s each" },
+      { icon:"🕊️", name:"Pigeon Pose",              desc:"Front shin parallel to mat, lean forward. The deepest glute stretch — essential after Frog Pumps and Sumo Squats.",                    dur:"45s each" },
+      { icon:"4️⃣", name:"Figure Four Stretch",      desc:"Lying back, ankle over opposite knee. Hits the piriformis and outer glute — often the source of post-lunge soreness.",                 dur:"40s each" },
+      { icon:"🪑", name:"Seated Hamstring Stretch",  desc:"Legs extended, hinge at hips. Balances the posterior chain loaded by Romanian Deadlifts.",                                             dur:"40s" },
+      { icon:"🦶", name:"Standing Calf Stretch",     desc:"Heel off a step, drop slowly. Releases the calves after Calf Raises.",                                                                 dur:"40s each" },
+      { icon:"🤗", name:"Lying Knee Hug",            desc:"Both knees to chest, rock side to side. Decompresses the lumbar spine after all the lower body loading.",                              dur:"40s" },
+      { icon:"🌿", name:"Spinal Twist",              desc:"Knees fall to one side, arms wide. Releases the hip rotators and lower back after heavy lower body work.",                             dur:"45s each" },
+    ],
+  },
+  upper: {
+    color: "#00b9ff",
+    label: "Upper Body",
+    iconClass: "wu-upper",
+    warmup: [
+      { icon:"🔁", name:"Shoulder Rolls",            desc:"Big backward then forward circles. Opens the chest and wakes up the rotator cuff before any push work.",                               dur:"30s" },
+      { icon:"💪", name:"Chest Opener",              desc:"Clasp hands behind back, lift and squeeze shoulder blades. Opens the pectorals before loading them.",                                  dur:"30s" },
+      { icon:"🧱", name:"Wall Angels",               desc:"Full back on wall, slide arms overhead and back. Activates the rotator cuff and mid-traps for shoulder stability.",                    dur:"30s" },
+      { icon:"🙌", name:"Wrist Circles",             desc:"Full circles both directions. Essential prep for the wrist joint load from push-ups and dips.",                                        dur:"30s" },
+      { icon:"🦅", name:"Scapular Squeezes",         desc:"Arms out, squeeze shoulder blades firmly 10 times. Fires up mid-traps and rhomboids for safe shoulder mechanics.",                    dur:"30s" },
+      { icon:"🤸", name:"Arm Cross Stretch",         desc:"Pull each arm across chest 10s each side. Opens the posterior shoulder before upper body loading.",                                    dur:"30s" },
+      { icon:"🔄", name:"Neck Rolls",                desc:"Slow half-circles ear to ear. Releases cervical tension before shoulder and upper back work.",                                         dur:"30s" },
+    ],
+    cooldown: [
+      { icon:"🚪", name:"Chest Doorway Stretch",     desc:"Forearm at 90° on doorframe, lean forward. The best stretch for pectoral tightness after push-up and dip work.",                      dur:"40s each" },
+      { icon:"💪", name:"Tricep Overhead Stretch",   desc:"Elbow behind head, other hand presses down. Directly releases the triceps from Tricep Dips and Diamond Push-Ups.",                    dur:"40s each" },
+      { icon:"🤸", name:"Cross-Body Shoulder",       desc:"Pull arm across chest, shoulder blade stays down. Targets the posterior deltoid and rotator cuff.",                                    dur:"40s each" },
+      { icon:"🪡", name:"Thread the Needle",         desc:"On all fours, slide arm under body to floor. Deep thoracic rotation — releases the upper back after Prone Y Raise.",                  dur:"40s each" },
+      { icon:"🐍", name:"Prone Cobra",               desc:"Face down, lift chest, squeeze shoulder blades. Counteracts the forward flexion of all push-up variations.",                           dur:"40s" },
+      { icon:"🧘", name:"Child's Pose",              desc:"Arms forward, breathe into upper back. Decompresses the shoulder girdle and lats after upper body work.",                              dur:"45s" },
+      { icon:"↗️", name:"Neck Stretch",              desc:"Ear toward shoulder, hold 20s each side. Releases the upper trapezius which works hard during shoulder exercises.",                    dur:"40s each" },
+    ],
+  },
+  core: {
+    color: "#ff4f6a",
+    label: "Core",
+    iconClass: "wu-core",
+    warmup: [
+      { icon:"🐈", name:"Cat-Cow",                   desc:"8 slow reps — inhale drop belly, exhale round spine. Mobilises the entire spine before deep core loading.",                            dur:"40s" },
+      { icon:"🌀", name:"Hip Circles",               desc:"Wakes up the hip flexors which attach to the lumbar spine and are involved in all core stability work.",                               dur:"30s" },
+      { icon:"🍑", name:"Glute Bridge Activation",   desc:"10 slow reps. Activates the glutes — essential for protecting the lower back during Dead Bug and Superman.",                          dur:"30s" },
+      { icon:"🪲", name:"Dead Bug Hold",             desc:"Arms and legs extended, hold lower back down 10s. Teaches the core bracing pattern you need the whole session.",                       dur:"30s" },
+      { icon:"🧘", name:"Child's Pose",              desc:"Breathe into the lower back — decompresses the lumbar spine before you load it with planks and hollow holds.",                        dur:"30s" },
+      { icon:"🌍", name:"World's Greatest Stretch",  desc:"Opens hip flexors and thoracic spine — both key areas for safe core training.",                                                        dur:"40s each" },
+      { icon:"🌀", name:"Spinal Rotation",           desc:"Seated, rotate torso slowly side to side. Warms up the obliques before Toe Taps and Reverse Crunches.",                              dur:"30s" },
+    ],
+    cooldown: [
+      { icon:"🧘", name:"Child's Pose",              desc:"Arms forward, breathe into the lower back. Decompresses the lumbar spine after Plank and Hollow Body Hold.",                         dur:"45s" },
+      { icon:"🐈", name:"Cat-Cow",                   desc:"6 slow reps. Restores spinal mobility and releases the erectors after Superman and Bird Dog.",                                        dur:"40s" },
+      { icon:"🌿", name:"Spinal Twist",              desc:"Knees fall to one side, arms wide. Releases the obliques and rotators after Toe Taps and Reverse Crunches.",                         dur:"45s each" },
+      { icon:"🤗", name:"Lying Knee Hug",            desc:"Both knees to chest, rock side to side. Direct lumbar decompression after all the core compression work.",                            dur:"40s" },
+      { icon:"🏃", name:"Low Lunge Stretch",         desc:"Hip flexors attach to the lumbar spine — releasing them reduces lower back soreness after core days.",                                 dur:"40s each" },
+      { icon:"🐍", name:"Prone Cobra",               desc:"Face down, lift chest. Counteracts the forward flexion pattern of Dead Bug and Hollow Body Hold.",                                    dur:"40s" },
+      { icon:"4️⃣", name:"Supine Figure Four",        desc:"Ankle over opposite knee — releases the piriformis which gets tight after Bird Dog and Superman Hold.",                               dur:"40s each" },
+    ],
+  },
+  full: {
+    color: "#00e5a0",
+    label: "Full Body",
+    iconClass: "wu",
+    warmup: [
+      { icon:"🌀", name:"Hip Circles",               desc:"Lubricates the hip joint and wakes up the glutes before the full body session.",                                                       dur:"30s" },
+      { icon:"🦵", name:"Leg Swings",                desc:"Dynamic hip flexor and hamstring stretch before lower body loading.",                                                                  dur:"30s" },
+      { icon:"🍑", name:"Glute Bridge Activation",   desc:"10 slow reps — pre-activates the glutes so they lead on Frog Pumps and Lunges.",                                                      dur:"30s" },
+      { icon:"🌍", name:"World's Greatest Stretch",  desc:"Opens hips, hip flexors and thoracic spine — the perfect full body primer.",                                                           dur:"40s each" },
+      { icon:"🔁", name:"Shoulder Rolls",            desc:"Opens the chest and activates the rotator cuff before upper body work.",                                                               dur:"30s" },
+      { icon:"💪", name:"Chest Opener",              desc:"Counters forward posture and opens the pectorals before push-up loading.",                                                             dur:"30s" },
+      { icon:"🧱", name:"Wall Angels",               desc:"Activates mid-traps and rotator cuff for shoulder stability.",                                                                         dur:"30s" },
+      { icon:"🙌", name:"Wrist Circles",             desc:"Preps the wrist joint for push-up and dip load.",                                                                                     dur:"30s" },
+      { icon:"🦅", name:"Scapular Squeezes",         desc:"Fires up mid-traps and rhomboids for safe shoulder mechanics throughout the session.",                                                 dur:"30s" },
+    ],
+    cooldown: [
+      { icon:"🧘", name:"Child's Pose",              desc:"Decompresses the shoulder girdle and upper back after full body work.",                                                                dur:"45s" },
+      { icon:"🚪", name:"Chest Doorway Stretch",     desc:"Releases the pectorals after push-up and dip work.",                                                                                  dur:"40s each" },
+      { icon:"🪡", name:"Thread the Needle",         desc:"Deep thoracic rotation — releases the upper back after Bird Dog and Superman.",                                                       dur:"40s each" },
+      { icon:"🏃", name:"Low Lunge Stretch",         desc:"Releases the hip flexors loaded during Reverse Lunges.",                                                                               dur:"45s each" },
+      { icon:"🕊️", name:"Pigeon Pose",              desc:"The deepest glute stretch — essential after Frog Pumps.",                                                                              dur:"45s each" },
+      { icon:"4️⃣", name:"Figure Four Stretch",      desc:"Targets the piriformis and outer glute — often the source of post-lunge soreness.",                                                   dur:"40s each" },
+      { icon:"🤗", name:"Lying Knee Hug",            desc:"Decompresses the lumbar spine after full body loading.",                                                                               dur:"40s" },
+      { icon:"🐈", name:"Cat-Cow",                   desc:"Restores spinal mobility after core and back work.",                                                                                   dur:"6 reps" },
+      { icon:"🌿", name:"Spinal Twist",              desc:"Full spinal release — the perfect way to end any full body session.",                                                                  dur:"45s each" },
+    ],
+  },
+  period: {
+    color: "#a78bfa",
+    label: "Period Mode",
+    iconClass: "wu-period",
+    warmup: [
+      { icon:"🔄", name:"Neck Rolls",                desc:"Gentle half-circles ear to ear. Releases tension without any load.",                                                                   dur:"30s" },
+      { icon:"🔁", name:"Shoulder Rolls",            desc:"Easy backward and forward circles. Nothing strenuous.",                                                                                dur:"30s" },
+      { icon:"↔️", name:"Hip Sways",                desc:"Side to side, very gentle. Warms up without demanding anything from the body.",                                                        dur:"30s" },
+    ],
+    cooldown: [
+      { icon:"🧘", name:"Child's Pose",              desc:"Hold and take 3 deep slow breaths into the lower back.",                                                                               dur:"40s" },
+      { icon:"🌿", name:"Supine Twist",              desc:"Both sides, very gentle rotation. No forcing the range.",                                                                              dur:"40s each" },
+      { icon:"🦵", name:"Legs Up Wall",              desc:"Hips close to wall, let gravity do the work. Rest here.",                                                                              dur:"60s" },
+    ],
+  },
 };
 
-let phases;
-let phaseIndex = 0, exerciseIndex = 0, time = 40, totalTime = 40, interval, paused = false;
+// ────────────────────────────────────────────────
+// SPLIT CONFIG — each split has its own warm-up & cool-down
+// ────────────────────────────────────────────────
+
+const SPLIT_CONFIG = {
+  lower:  { name:"Lower Body",  desc:"Glutes · Quads · Hamstrings · Calves",     cls:"lower",  exercises: lowerExercises, warmup: warmupLower,  cooldown: cooldownLower  },
+  upper:  { name:"Upper Body",  desc:"Chest · Shoulders · Triceps · Back",       cls:"upper",  exercises: upperExercises, warmup: warmupUpper,  cooldown: cooldownUpper  },
+  core:   { name:"Core",        desc:"Deep core · Lower back · Stability",        cls:"core",   exercises: coreExercises,  warmup: warmupCore,   cooldown: cooldownCore   },
+  full:   { name:"Full Body",   desc:"All muscle groups · Warm-up included",      cls:"full",   exercises: fullExercises,  warmup: warmupFull,   cooldown: cooldownFull   },
+  period: { name:"Period Mode", desc:"Gentle · Low impact · Recovery focused",    cls:"rest",   exercises: periodMain,     warmup: warmupPeriod, cooldown: cooldownPeriod },
+};
+
+// ────────────────────────────────────────────────
+// STATE
+// ────────────────────────────────────────────────
+
+let activeSplit  = localStorage.getItem("activeSplit") || "full";
+let currentMode  = 'normal';
+let phases, phaseIndex = 0, exerciseIndex = 0, time = 40, totalTime = 40, interval, paused = false;
 let currentPhase = "workout";
+let activeStretchTab = "warmup";
+
+// ────────────────────────────────────────────────
+// SPEECH
+// ────────────────────────────────────────────────
 
 function speak(text){
   try { speechSynthesis.cancel(); speechSynthesis.speak(new SpeechSynthesisUtterance(text)); } catch(e){}
 }
 
-// mode: 'normal' | 'period' | 'walk'
-let currentMode = 'normal';
+// ────────────────────────────────────────────────
+// MODE CYCLING
+// ────────────────────────────────────────────────
 
 function cycleMode(){
-  const modes = ['normal', 'period', 'walk'];
+  const modes  = ['normal', 'period', 'walk'];
   const labels = ['Normal Mode', 'Period Mode', 'Walk Mode'];
-  const classes = [null, 'period', 'walk'];
-  currentMode = modes[(modes.indexOf(currentMode) + 1) % modes.length];
+  const cls    = [null, 'period', 'walk'];
+  currentMode  = modes[(modes.indexOf(currentMode) + 1) % modes.length];
   const i = modes.indexOf(currentMode);
   const btn = document.getElementById("modeBtn");
   btn.textContent = labels[i];
-  btn.className = 'mode-pill' + (classes[i] ? ' ' + classes[i] : '');
-  periodMode = currentMode === 'period';
+  btn.className = 'mode-pill' + (cls[i] ? ' ' + cls[i] : '');
 
-  // Show/hide player vs walk card
+  if(currentMode === 'period'){
+    activeSplit = 'period';
+    updateSplitBanner();
+    updateStretchPanel();
+  } else if(activeSplit === 'period'){
+    activeSplit = localStorage.getItem("activeSplit") || 'full';
+    if(activeSplit === 'period') activeSplit = 'full';
+    updateSplitBanner();
+    updateStretchPanel();
+  }
+
   const playerCard = document.querySelector('.player-card');
   const walkCard   = document.getElementById('walkCard');
   if(currentMode === 'walk'){
@@ -958,7 +1360,10 @@ function cycleMode(){
   }
 }
 
-// ── Walk timer ──
+// ────────────────────────────────────────────────
+// WALK MODE
+// ────────────────────────────────────────────────
+
 let walkSeconds = 0, walkInterval, walkRunning = false;
 
 function toggleWalk(){
@@ -970,10 +1375,7 @@ function toggleWalk(){
   } else {
     walkRunning = true;
     btn.textContent = "PAUSE WALK";
-    walkInterval = setInterval(()=>{
-      walkSeconds++;
-      updateWalkDisplay();
-    }, 1000);
+    walkInterval = setInterval(()=>{ walkSeconds++; updateWalkDisplay(); }, 1000);
   }
 }
 
@@ -996,23 +1398,22 @@ function updateWalkDisplay(){
 }
 
 function logWalk(){
-  if(walkSeconds < 60){
-    alert("Keep walking! Log after at least 1 minute.");
-    return;
-  }
+  if(walkSeconds < 60){ alert("Keep walking! Log after at least 1 minute."); return; }
   clearInterval(walkInterval);
   walkRunning = false;
   const mins = Math.floor(walkSeconds / 60);
-  // Count as activity day on calendar
   localStorage.setItem(new Date().toDateString(), "walk");
   updateCalendar();
   updateStreak();
   const btn = document.getElementById("walkStartBtn");
   btn.textContent = "✓ WALK LOGGED";
   btn.style.background = "var(--accent)";
-  document.getElementById("walkSteps").textContent =
-    "✓ " + mins + " minutes logged — great work!";
+  document.getElementById("walkSteps").textContent = "✓ " + mins + " minutes logged — great work!";
 }
+
+// ────────────────────────────────────────────────
+// WORKOUT ENGINE
+// ────────────────────────────────────────────────
 
 function startWorkout(){
   clearInterval(interval);
@@ -1033,21 +1434,25 @@ function resetWorkout(){
   phaseIndex = 0; exerciseIndex = 0; time = 40; paused = false;
   setExerciseDisplay("Ready", "");
   setTimer(40, 40);
-  updatePhaseUI(1, -1); // show workout phase as default
+  updatePhaseUI(1, -1);
+}
+
+function buildPhases(){
+  const cfg = SPLIT_CONFIG[activeSplit] || SPLIT_CONFIG.full;
+  return [
+    { id:"warmup",   label:"Warm-Up",   exercises: cfg.warmup                        },
+    { id:"workout",  label:"Workout",   exercises: applyProgression(cfg.exercises)   },
+    { id:"cooldown", label:"Cool-Down", exercises: cfg.cooldown                      },
+  ];
 }
 
 function run(){
   const phase = phases[phaseIndex];
   if(exerciseIndex >= phase.exercises.length){
-    // Announce phase done
     if(phaseIndex < phases.length - 1){
       speak(phase.label + " complete. Get ready.");
       updatePhaseUI(phaseIndex + 1, -1);
-      setTimeout(()=>{
-        phaseIndex++;
-        exerciseIndex = 0;
-        run();
-      }, 2500);
+      setTimeout(()=>{ phaseIndex++; exerciseIndex = 0; run(); }, 2500);
       return;
     } else {
       speak("Workout complete. Great job!");
@@ -1070,23 +1475,16 @@ function run(){
   clearInterval(interval);
   interval = setInterval(()=>{
     setTimer(time, totalTime);
-    if(time-- <= 0){
-      clearInterval(interval);
-      exerciseIndex++;
-      run();
-    }
+    if(time-- <= 0){ clearInterval(interval); exerciseIndex++; run(); }
   }, 1000);
 }
 
 function updatePhaseUI(active, done){
   const badge = document.getElementById("phaseBadge");
-  const phaseClasses = ["warmup","workout","cooldown"];
   const phaseLabels  = ["● Warm-Up","● Workout","● Cool-Down"];
   const badgeClasses = ["phase-warmup","phase-workout","phase-cooldown"];
-
   badge.className = "phase-badge " + badgeClasses[active];
   badge.textContent = phaseLabels[active];
-
   for(let i = 0; i < 3; i++){
     const dot = document.getElementById("dot" + i);
     dot.classList.remove("active","done");
@@ -1104,10 +1502,8 @@ function setExerciseDisplay(text, hint){
   setTimeout(()=>{
     el.textContent = text;
     hintEl.textContent = hint || "";
-    const isRest = text === "Rest";
-    el.className = isRest ? "is-rest" : "";
+    el.className = (text === "Rest") ? "is-rest" : "";
 
-    // Ring colour by phase
     const ring = document.getElementById("ringFg");
     ring.classList.remove("warmup","cooldown");
     if(currentPhase === "warmup")   ring.classList.add("warmup");
@@ -1127,15 +1523,13 @@ function setTimer(val, total){
   const pct = total > 0 ? val / total : 0;
   ring.style.strokeDashoffset = CIRCUMFERENCE * (1 - pct);
 
-  // override stroke for rest regardless of phase
   const phase = phases && phases[phaseIndex];
-  const ex = phase && phase.exercises[exerciseIndex];
+  const ex    = phase && phase.exercises[exerciseIndex];
   if(ex && ex.type === "rest") ring.style.stroke = "#4a6080";
 }
 
 function markDone(){
   localStorage.setItem(new Date().toDateString(), "done");
-  // Increment progression
   const prog = getProgression();
   prog.workouts = (prog.workouts || 0) + 1;
   saveProgression(prog);
@@ -1143,6 +1537,10 @@ function markDone(){
   updateCalendar();
   updateStreak();
 }
+
+// ────────────────────────────────────────────────
+// CALENDAR & STREAK
+// ────────────────────────────────────────────────
 
 function createCalendar(){
   const cal = document.getElementById("calendar");
@@ -1179,6 +1577,10 @@ function updateStreak(){
   document.getElementById("streakMsg").textContent = msgs[Math.min(streak, msgs.length-1)];
 }
 
+// ────────────────────────────────────────────────
+// PROGRESS CHART
+// ────────────────────────────────────────────────
+
 function saveProgress(){
   const waist = parseFloat(document.getElementById("waist").value);
   if(isNaN(waist)) return;
@@ -1195,11 +1597,8 @@ function drawChart(data){
   const dpr = window.devicePixelRatio || 1;
   const W = canvas.parentElement.clientWidth - 44;
   const H = 120;
-
-  canvas.width  = W * dpr;
-  canvas.height = H * dpr;
-  canvas.style.width  = W + "px";
-  canvas.style.height = H + "px";
+  canvas.width  = W * dpr; canvas.height = H * dpr;
+  canvas.style.width = W + "px"; canvas.style.height = H + "px";
   ctx.scale(dpr, dpr);
   ctx.clearRect(0, 0, W, H);
 
@@ -1216,7 +1615,6 @@ function drawChart(data){
   const max = Math.max(...data) + 2;
   const range = max - min || 1;
   const xStep = (W - pad*2) / (data.length - 1);
-
   const toX = i => pad + i * xStep;
   const toY = v => H - pad - ((v - min) / range) * (H - pad*2);
 
@@ -1230,7 +1628,6 @@ function drawChart(data){
   const grad = ctx.createLinearGradient(0, pad, 0, H);
   grad.addColorStop(0, "rgba(0,229,160,.25)");
   grad.addColorStop(1, "rgba(0,229,160,0)");
-
   ctx.beginPath();
   data.forEach((v, i) => { i === 0 ? ctx.moveTo(toX(i), toY(v)) : ctx.lineTo(toX(i), toY(v)); });
   ctx.lineTo(toX(data.length-1), H);
@@ -1241,31 +1638,31 @@ function drawChart(data){
 
   ctx.beginPath();
   data.forEach((v, i) => { i === 0 ? ctx.moveTo(toX(i), toY(v)) : ctx.lineTo(toX(i), toY(v)); });
-  ctx.strokeStyle = "#00e5a0";
-  ctx.lineWidth = 2;
-  ctx.lineJoin = "round";
-  ctx.stroke();
+  ctx.strokeStyle = "#00e5a0"; ctx.lineWidth = 2; ctx.lineJoin = "round"; ctx.stroke();
 
   data.forEach((v, i) => {
-    ctx.beginPath();
-    ctx.arc(toX(i), toY(v), 4, 0, Math.PI*2);
-    ctx.fillStyle = "#080b10";
-    ctx.fill();
-    ctx.strokeStyle = "#00e5a0";
-    ctx.lineWidth = 2;
-    ctx.stroke();
+    ctx.beginPath(); ctx.arc(toX(i), toY(v), 4, 0, Math.PI*2);
+    ctx.fillStyle = "#080b10"; ctx.fill();
+    ctx.strokeStyle = "#00e5a0"; ctx.lineWidth = 2; ctx.stroke();
   });
 }
 
-// ── Progression system ──
-const WORKOUTS_PER_LEVEL = 3;
-const DUR_INCREMENT = 5;
-const MAX_DUR = 90;
-const LEVEL_NAMES = ["Foundation","Builder","Grinder","Warrior","Champion","Elite","Legend"];
+// ────────────────────────────────────────────────
+// PROGRESSION SYSTEM
+// ────────────────────────────────────────────────
+
+const WORKOUTS_PER_LEVEL = 2;
+const DUR_INCREMENT      = 5;
+const MAX_DUR            = 120;
+const LEVEL_NAMES = ["Foundation","Builder","Grinder","Warrior","Champion","Elite","Legend","Master","Apex","Titan","Mythic","FORGED"];
 
 const BASE_DURATIONS = {
-  "Frog Pumps":40, "Reverse Lunges":40, "Bird Dog":40,
-  "Incline Push-Ups":40, "Dead Bug":40, "Superman Hold":40, "Glute Bridge":40
+  "Sumo Squats":40, "Reverse Lunges":40, "Glute Bridge":40,
+  "Romanian Deadlift":40, "Curtsy Lunges":40, "Frog Pumps":40, "Calf Raises":40,
+  "Incline Push-Ups":40, "Pike Push-Ups":40, "Tricep Dips":40,
+  "Scapular Push-Ups":40, "Shoulder Taps":40, "Prone Y Raise":40, "Diamond Push-Ups":40,
+  "Dead Bug":40, "Bird Dog":40, "Hollow Body Hold":40, "Plank":40,
+  "Toe Taps":40, "Reverse Crunches":40, "Superman Hold":40,
 };
 
 function getProgression(){ return JSON.parse(localStorage.getItem("progression") || '{"workouts":0}'); }
@@ -1291,13 +1688,11 @@ function renderProgressionUI(){
   const lvl  = currentLevel(prog.workouts);
   const done = prog.workouts % WORKOUTS_PER_LEVEL;
   const pct  = (done / WORKOUTS_PER_LEVEL) * 100;
-
   document.getElementById("progLevelNum").textContent   = lvl + 1;
   document.getElementById("progLevelLabel").textContent = LEVEL_NAMES[Math.min(lvl, LEVEL_NAMES.length-1)];
   document.getElementById("progXpText").textContent     = `${done} / ${WORKOUTS_PER_LEVEL} workouts`;
   document.getElementById("progXpFill").style.width     = pct + "%";
   document.getElementById("progWorkoutsLeft").textContent = WORKOUTS_PER_LEVEL - done;
-
   const list = document.getElementById("progExList");
   list.innerHTML = Object.keys(BASE_DURATIONS).map(name => {
     const cur  = durForExercise(name, prog.workouts);
@@ -1321,22 +1716,38 @@ function resetProgression(){
   renderProgressionUI();
 }
 
-function buildPhases(){
-  if(periodMode){
-    return [
-      { id:"warmup",   label:"Warm-Up",   exercises: periodWarmup   },
-      { id:"workout",  label:"Workout",   exercises: applyProgression(periodMain) },
-      { id:"cooldown", label:"Cool-Down", exercises: periodCooldown },
-    ];
-  }
-  return [
-    { id:"warmup",   label:"Warm-Up",   exercises: warmupExercises   },
-    { id:"workout",  label:"Workout",   exercises: applyProgression(mainExercises) },
-    { id:"cooldown", label:"Cool-Down", exercises: cooldownExercises },
-  ];
+// ────────────────────────────────────────────────
+// SPLIT SELECTOR
+// ────────────────────────────────────────────────
+
+function toggleSplitSelector(){
+  document.getElementById("splitSelector").classList.toggle("open");
 }
 
-let activeStretchTab = "warmup";
+function selectSplit(split){
+  activeSplit = split;
+  localStorage.setItem("activeSplit", split);
+  document.getElementById("splitSelector").classList.remove("open");
+  updateSplitBanner();
+  // FIX: rebuild phases so the timer uses the new split's warm-up & cool-down
+  phases = buildPhases();
+  // FIX: update the stretch reference panel to match the new split
+  updateStretchPanel();
+}
+
+function updateSplitBanner(){
+  const cfg = SPLIT_CONFIG[activeSplit] || SPLIT_CONFIG.full;
+  const banner = document.getElementById("splitBanner");
+  banner.className = "split-banner " + cfg.cls;
+  document.getElementById("splitDayName").textContent = cfg.name;
+  document.getElementById("splitDayDesc").textContent = cfg.desc;
+}
+
+// ────────────────────────────────────────────────
+// STRETCH REFERENCE PANEL
+// Fully reflects active split — different exercises each day
+// ────────────────────────────────────────────────
+
 function showStretchTab(tab, el){
   activeStretchTab = tab;
   document.querySelectorAll(".stretch-tab").forEach(t => t.classList.remove("active"));
@@ -1344,13 +1755,35 @@ function showStretchTab(tab, el){
   renderStretchList();
 }
 
+/**
+ * updateStretchPanel — call whenever the split changes.
+ * Updates the section label, context badge, tab colours, and list content.
+ */
+function updateStretchPanel(){
+  const splitData = stretchDataBySplit[activeSplit] || stretchDataBySplit.full;
+
+  // Section label above the card
+  document.getElementById("stretchSplitLabel").textContent = splitData.label.toUpperCase();
+
+  // Context bar inside the card
+  document.getElementById("stretchContextDot").style.background = splitData.color;
+  const tabName = activeStretchTab === "warmup" ? "warm-up" : "cool-down";
+  document.getElementById("stretchContextLabel").textContent =
+    splitData.label + " " + tabName + " stretches — targeted for today's muscles";
+
+  // Re-render the list
+  renderStretchList();
+}
+
 function renderStretchList(){
+  const splitData  = stretchDataBySplit[activeSplit] || stretchDataBySplit.full;
+  const items      = splitData[activeStretchTab] || [];
+  const iconClass  = activeStretchTab === "warmup" ? (splitData.iconClass || "wu") : "cd";
+
   const list = document.getElementById("stretchList");
-  const items = stretchData[activeStretchTab];
-  const cls = activeStretchTab === "warmup" ? "wu" : "cd";
   list.innerHTML = items.map(s => `
     <div class="stretch-item">
-      <div class="stretch-icon ${cls}">${s.icon}</div>
+      <div class="stretch-icon ${iconClass}">${s.icon}</div>
       <div class="stretch-info">
         <div class="stretch-name">${s.name}</div>
         <div class="stretch-desc">${s.desc}</div>
@@ -1360,12 +1793,17 @@ function renderStretchList(){
   `).join("");
 }
 
+// ────────────────────────────────────────────────
+// INIT
+// ────────────────────────────────────────────────
+
 phases = buildPhases();
+updateSplitBanner();
+updateStretchPanel();
 createCalendar();
 updateCalendar();
 updateStreak();
 drawChart(JSON.parse(localStorage.getItem("waistLog") || "[]"));
-renderStretchList();
 renderProgressionUI();
 updatePhaseUI(1, -1);
 </script>
