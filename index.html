@@ -1796,6 +1796,7 @@ function importProgress(event){
 }
 
 
+function resetProgression(){
   if(!confirm("Reset all progression back to level 1?")) return;
   saveProgression({ workouts: 0 });
   renderProgressionUI();
