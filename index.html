@@ -1666,6 +1666,37 @@ const DUR_INCREMENT = 5;
 const MAX_DUR = 120;
 const LEVEL_NAMES = ["Foundation","Builder","Grinder","Warrior","Champion","Elite","Legend","Master","Apex","Titan","Mythic","FORGED"];
 
+// Levels keep climbing forever (workouts / 2), independent of the duration cap.
+// Once past the named tiers, cycle the name and append a roman numeral tier
+// so it never just freezes on "FORGED" forever.
+const ROMAN = ["","I","II","III","IV","V","VI","VII","VIII","IX","X"];
+function toRoman(n){
+  if(n <= 0) return "";
+  if(n <= 10) return ROMAN[n];
+  const tens = Math.floor(n/10), ones = n%10;
+  return "X".repeat(tens) + ROMAN[ones];
+}
+function levelLabel(lvl){
+  const cycle = Math.floor(lvl / LEVEL_NAMES.length);
+  const name  = LEVEL_NAMES[lvl % LEVEL_NAMES.length];
+  return cycle > 0 ? `${name} ${toRoman(cycle + 1)}` : name;
+}
+
+// Main-exercise duration caps out once level hits this (40 + 16*5 = 120).
+const DUR_CAP_LEVEL = Math.ceil((MAX_DUR - 40) / DUR_INCREMENT);
+// Past that point, rest time between exercises becomes the next overload
+// dimension instead — it keeps shrinking (down to a safety floor) so density
+// keeps increasing even though the work interval itself is maxed.
+const REST_BASE = 20;
+const REST_MIN  = 8;
+const REST_DECREMENT = 1;
+function overloadTier(workouts){
+  return Math.max(0, currentLevel(workouts) - DUR_CAP_LEVEL);
+}
+function restForLevel(workouts){
+  return Math.max(REST_MIN, REST_BASE - overloadTier(workouts) * REST_DECREMENT);
+}
+
 const BASE_DURATIONS = {
   // Lower
   "Sumo Squats":40, "Reverse Lunges":40, "Glute Bridge":40,
@@ -1690,7 +1721,9 @@ function durForExercise(name, workouts){
 
 function applyProgression(exercises){
   const { workouts } = getProgression();
+  const restDur = restForLevel(workouts);
   return exercises.map(ex => {
+    if(ex.type === "rest") return { ...ex, dur: restDur };
     const d = durForExercise(ex.name, workouts);
     return d ? { ...ex, dur: d } : ex;
   });
@@ -1701,12 +1734,20 @@ function renderProgressionUI(){
   const lvl  = currentLevel(prog.workouts);
   const done = prog.workouts % WORKOUTS_PER_LEVEL;
   const pct  = (done / WORKOUTS_PER_LEVEL) * 100;
+  const tier = overloadTier(prog.workouts);
+  const rest = restForLevel(prog.workouts);
 
   document.getElementById("progLevelNum").textContent   = lvl + 1;
-  document.getElementById("progLevelLabel").textContent = LEVEL_NAMES[Math.min(lvl, LEVEL_NAMES.length-1)];
+  document.getElementById("progLevelLabel").textContent = levelLabel(lvl);
   document.getElementById("progXpText").textContent     = `${done} / ${WORKOUTS_PER_LEVEL} workouts`;
   document.getElementById("progXpFill").style.width     = pct + "%";
-  document.getElementById("progWorkoutsLeft").textContent = WORKOUTS_PER_LEVEL - done;
+
+  const badge = document.getElementById("progNextBadge");
+  if(tier > 0){
+    badge.innerHTML = `Overload tier ${tier}<br><strong>${rest}s</strong> rest`;
+  } else {
+    badge.innerHTML = `Next level in<br><strong>${WORKOUTS_PER_LEVEL - done}</strong> workouts`;
+  }
 
   const list = document.getElementById("progExList");
   list.innerHTML = Object.keys(BASE_DURATIONS).map(name => {
@@ -1718,7 +1759,7 @@ function renderProgressionUI(){
       <span class="prog-ex-right">
         <span class="prog-ex-dur">${cur}s</span>
         ${atMax
-          ? `<span class="prog-ex-arrow">— MAX</span>`
+          ? `<span class="prog-ex-arrow">rest ${rest}s</span>`
           : `<span class="prog-ex-arrow">→</span><span class="prog-ex-next">${next}s</span>`}
       </span>
     </div>`;
@@ -1735,7 +1776,7 @@ function restoreProgression(){
   renderProgressionUI();
   phases = buildPhases();
   document.getElementById("restoreInput").value = "";
-  alert("✓ Progress restored to " + val + " workouts — Level " + (currentLevel(val)+1) + " " + LEVEL_NAMES[Math.min(currentLevel(val), LEVEL_NAMES.length-1)]);
+  alert("✓ Progress restored to " + val + " workouts — Level " + (currentLevel(val)+1) + " " + levelLabel(currentLevel(val)));
 }
 
 function exportProgress(){
@@ -1786,7 +1827,7 @@ function importProgress(event){
       updateCalendar();
       updateStreak();
       phases = buildPhases();
-      alert("✓ Backup restored successfully! Level " + (currentLevel(data.progression.workouts)+1) + " " + LEVEL_NAMES[Math.min(currentLevel(data.progression.workouts), LEVEL_NAMES.length-1)]);
+      alert("✓ Backup restored successfully! Level " + (currentLevel(data.progression.workouts)+1) + " " + levelLabel(currentLevel(data.progression.workouts)));
     } catch(err) {
       alert("Could not read backup file. Make sure it's a valid FORGED backup.");
     }
